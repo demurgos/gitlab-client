@@ -32,4 +32,4 @@ Note however that review times may be slow.
 
 # License
 
-[MIT](./LICENSE.md)
+[AGPL-3.0-or-later](./LICENSE.md)
