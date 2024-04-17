@@ -1,5 +1,6 @@
 pub use ::reqwest;
 pub use ::tower_service;
+use std::future::Future;
 
 use crate::common::project::{Project, ProjectRef};
 use crate::query::get_project_list::GetProjectListQueryView;
@@ -13,22 +14,21 @@ use url::Url;
 
 pub mod client;
 pub mod command;
-mod common;
+pub mod common;
+pub mod context;
 #[cfg(feature = "http")]
 pub mod http;
 pub mod query;
 pub mod url_util;
 
-#[async_trait]
-pub trait GitlabClient<ExtraInput>: Send + Sync
-where
-  ExtraInput: 'static,
-{
-  type Error<'req>;
-  async fn get_project_list(
+pub trait GitlabClient<Cx>: Send + Sync {
+  type Error<'req>
+  where
+    Cx: 'req;
+  fn get_project_list<'r>(
     self,
-    query: GetProjectListQueryView<'_, ExtraInput>,
-  ) -> Result<Vec<Project>, Self::Error<'_>>;
+    query: GetProjectListQueryView<'r, Cx>,
+  ) -> impl Send + Future<Output = Result<Vec<Project>, Self::Error<'r>>>;
 
   // async fn publish_package_file(
   //   &self,
@@ -47,27 +47,22 @@ where
   // ) -> Result<ReleaseLink, CreateReleaseLinkError>;
 }
 
-#[async_trait]
-impl<'a, S, ExtraInput> GitlabClient<ExtraInput> for &'a mut S
+impl<'a, S, Cx> GitlabClient<Cx> for &'a mut S
 where
   Self: Send + Sync,
-  ExtraInput: 'static + Send + Sync,
-  S: for<'req> Service<GetProjectListQueryView<'req, ExtraInput>, Response = Vec<Project>>,
-  for<'req> <S as Service<GetProjectListQueryView<'req, ExtraInput>>>::Future: Send,
+  Cx: 'static + Send + Sync,
+  for<'req> S: Service<GetProjectListQueryView<'req, Cx>, Response = Vec<Project>>,
+  <S as Service<GetProjectListQueryView<'a, Cx>>>::Future: Send,
 {
-  type Error<'req> = <S as Service<GetProjectListQueryView<'req, ExtraInput>>>::Error;
+  type Error<'req> = <S as Service<GetProjectListQueryView<'req, Cx>>>::Error
+    where Cx: 'req;
 
-  async fn get_project_list(
-    self,
-    query: GetProjectListQueryView<'_, ExtraInput>,
-  ) -> Result<Vec<Project>, Self::Error<'_>> {
-    todo!()
+  async fn get_project_list<'r>(self, query: GetProjectListQueryView<'r, Cx>) -> Result<Vec<Project>, Self::Error<'r>> {
     // self.call(query).await
+    todo!()
+    // let res: Result<Vec<Project>, S::Error> = self.call(query).await;
+    // res
   }
-}
-
-pub trait GetGitlabUrl {
-  fn gitlab_url(&self) -> &Url;
 }
 
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
@@ -97,12 +92,6 @@ where
       instance_url: self.instance_url.clone(),
       auth: self.auth.as_ref().map(|a| a.as_view()),
     }
-  }
-}
-
-impl GetGitlabUrl for QueryBase {
-  fn gitlab_url(&self) -> &Url {
-    &self.instance_url
   }
 }
 

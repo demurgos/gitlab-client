@@ -1,6 +1,7 @@
+use crate::context::{GetRef, GitlabUrl};
 use crate::query::get_project_list::GetProjectListQueryView;
 use crate::url_util::UrlExt;
-use crate::{GetGitlabUrl, Project};
+use crate::Project;
 use core::task::{Context, Poll};
 use futures::future::BoxFuture;
 use reqwest::{Method, Request, Response};
@@ -35,7 +36,7 @@ pub enum ReqwestGitlabClientError {
 
 impl<'req, ExtraInput, TyInner> Service<GetProjectListQueryView<'req, ExtraInput>> for ReqwestGitlabClient<TyInner>
 where
-  ExtraInput: GetGitlabUrl,
+  ExtraInput: GetRef<GitlabUrl>,
   TyInner: Service<Request, Response = Response, Error = reqwest::Error> + 'req,
   TyInner::Future: Send,
 {
@@ -51,7 +52,7 @@ where
   }
 
   fn call(&mut self, req: GetProjectListQueryView<'req, ExtraInput>) -> Self::Future {
-    let req = Request::new(Method::GET, req.extra_input.gitlab_url().url_join(["projects"]));
+    let req = Request::new(Method::GET, req.context.get_ref().url_join(["projects"]));
     let res = self.inner.call(req);
     Box::pin(async move {
       let res: Response = res

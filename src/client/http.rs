@@ -1,6 +1,7 @@
+use crate::context::{GetRef, GitlabUrl};
 use crate::query::get_project_list::GetProjectListQueryView;
 use crate::url_util::UrlExt;
-use crate::{GetGitlabUrl, Project};
+use crate::Project;
 use bytes::Bytes;
 use core::task::{Context, Poll};
 use futures::future::BoxFuture;
@@ -37,9 +38,9 @@ pub enum HttpGitlabClientError {
   Other(String),
 }
 
-impl<'req, ExtraInput, TyInner, TyBody> Service<GetProjectListQueryView<'req, ExtraInput>> for HttpGitlabClient<TyInner>
+impl<'req, Cx, TyInner, TyBody> Service<GetProjectListQueryView<'req, Cx>> for HttpGitlabClient<TyInner>
 where
-  ExtraInput: GetGitlabUrl,
+  Cx: GetRef<GitlabUrl>,
   TyInner: Service<Request<Empty<Bytes>>, Response = Response<TyBody>> + 'req,
   TyInner::Error: StdError,
   TyInner::Future: Send,
@@ -58,10 +59,10 @@ where
       .map_err(|e| HttpGitlabClientError::PollReady(format!("{e:?}")))
   }
 
-  fn call(&mut self, req: GetProjectListQueryView<'req, ExtraInput>) -> Self::Future {
+  fn call(&mut self, req: GetProjectListQueryView<'req, Cx>) -> Self::Future {
     let req = Request::builder()
       .method(Method::GET)
-      .uri(req.extra_input.gitlab_url().url_join(["projects"]).as_str())
+      .uri(req.context.get_ref().url_join(["projects"]).as_str())
       .body(Empty::new())
       .unwrap();
     let res = self.inner.call(req);

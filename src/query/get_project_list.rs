@@ -1,6 +1,7 @@
 use crate::common::project::{ProjectId, ProjectOrderField};
 use crate::common::topic::TopicId;
 use crate::common::{AccessLevel, SortOrder, Visibility};
+use crate::context::EmptyContext;
 use chrono::{DateTime, Utc};
 use compact_str::CompactString;
 
@@ -9,8 +10,8 @@ use compact_str::CompactString;
 /// <https://docs.gitlab.com/ee/api/projects.html#list-all-projects>
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct GetProjectListQuery<ExtraInput, Str = CompactString> {
-  pub extra_input: ExtraInput,
+pub struct GetProjectListQuery<Cx, Str = CompactString> {
+  pub context: Cx,
   pub archived: Option<bool>,
   pub id_after: Option<ProjectId>,
   pub id_before: Option<ProjectId>,
@@ -43,15 +44,12 @@ pub struct GetProjectListQuery<ExtraInput, Str = CompactString> {
   pub with_programming_language: Vec<Str>,
 }
 
-pub type GetProjectListQueryView<'req, ExtraInput> = GetProjectListQuery<&'req ExtraInput, &'req str>;
+pub type GetProjectListQueryView<'req, Cx> = GetProjectListQuery<&'req Cx, &'req str>;
 
-impl<ExtraInput, Str> GetProjectListQuery<ExtraInput, Str> {
-  pub fn with_extra_input<NewExtraInput>(
-    mut self,
-    new_extra_input: NewExtraInput,
-  ) -> GetProjectListQuery<NewExtraInput, Str> {
+impl<Cx, Str> GetProjectListQuery<Cx, Str> {
+  pub fn set_context<NewCx>(self, new_context: NewCx) -> GetProjectListQuery<NewCx, Str> {
     GetProjectListQuery {
-      extra_input: new_extra_input,
+      context: new_context,
       archived: self.archived,
       id_after: self.id_after,
       id_before: self.id_before,
@@ -85,12 +83,12 @@ impl<ExtraInput, Str> GetProjectListQuery<ExtraInput, Str> {
     }
   }
 
-  pub fn as_view(&self) -> GetProjectListQueryView<'_, ExtraInput>
+  pub fn as_view(&self) -> GetProjectListQueryView<'_, Cx>
   where
     Str: AsRef<str>,
   {
     GetProjectListQueryView {
-      extra_input: &self.extra_input,
+      context: &self.context,
       archived: self.archived,
       id_after: self.id_after,
       id_before: self.id_before,
@@ -125,10 +123,10 @@ impl<ExtraInput, Str> GetProjectListQuery<ExtraInput, Str> {
   }
 }
 
-impl<Str: AsRef<str>> GetProjectListQuery<(), Str> {
+impl<Str: AsRef<str>> GetProjectListQuery<EmptyContext, Str> {
   pub const fn new() -> Self {
     Self {
-      extra_input: (),
+      context: EmptyContext::new(),
       archived: None,
       id_after: None,
       id_before: None,
