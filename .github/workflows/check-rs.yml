@@ -19,7 +19,7 @@ jobs:
         uses: "actions/checkout@v4"
 
       - name: "Ensure Rust toolchain is present (${{ matrix.rust_version }})"
-        run: "rustup toolchain add --profile=minimal ${{ matrix.rust_version }}"
+        run: "rustup toolchain add --profile=minimal --component rustfmt --component clippy ${{ matrix.rust_version }}"
 
       - name: "Set default Rust toolchain (${{ matrix.rust_version }})"
         run: "rustup default ${{ matrix.rust_version }}"
