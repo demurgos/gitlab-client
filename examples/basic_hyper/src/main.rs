@@ -11,7 +11,8 @@ async fn main() {
   let client = hyper_util::client::legacy::Client::builder(hyper_util::rt::TokioExecutor::new()).build(connector);
   let mut client = HttpGitlabClient::new(client);
   let base = QueryBase::new();
-  let query: GetProjectListQuery = GetProjectListQuery::new(base);
+  let query: GetProjectListQuery<()> = GetProjectListQuery::new();
+  let query = query.with_extra_input(base);
   let res = client.call(query.as_view()).await;
   dbg!(res);
 }

@@ -1,5 +1,6 @@
-use crate::query::get_project_list::{GetProjectListQueryView};
-use crate::{Project};
+use crate::query::get_project_list::GetProjectListQueryView;
+use crate::url_util::UrlExt;
+use crate::{GetGitlabUrl, Project};
 use core::task::{Context, Poll};
 use futures::future::BoxFuture;
 use reqwest::{Method, Request, Response};
@@ -32,25 +33,34 @@ pub enum ReqwestGitlabClientError {
   Other(String),
 }
 
-impl<'req, TyInner> Service<GetProjectListQueryView<'req>> for ReqwestGitlabClient<TyInner>
-  where
-    TyInner: Service<Request, Response=Response, Error=reqwest::Error> + 'req,
-    TyInner::Future: Send,
+impl<'req, ExtraInput, TyInner> Service<GetProjectListQueryView<'req, ExtraInput>> for ReqwestGitlabClient<TyInner>
+where
+  ExtraInput: GetGitlabUrl,
+  TyInner: Service<Request, Response = Response, Error = reqwest::Error> + 'req,
+  TyInner::Future: Send,
 {
   type Response = Vec<Project>;
   type Error = ReqwestGitlabClientError;
   type Future = BoxFuture<'req, Result<Self::Response, Self::Error>>;
 
   fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
-    self.inner.poll_ready(cx).map_err(|e| ReqwestGitlabClientError::PollReady(format!("{e:?}")))
+    self
+      .inner
+      .poll_ready(cx)
+      .map_err(|e| ReqwestGitlabClientError::PollReady(format!("{e:?}")))
   }
 
-  fn call(&mut self, req: GetProjectListQueryView<'req>) -> Self::Future {
-    let req = Request::new(Method::GET, req.base.api_url(["projects"]));
+  fn call(&mut self, req: GetProjectListQueryView<'req, ExtraInput>) -> Self::Future {
+    let req = Request::new(Method::GET, req.extra_input.gitlab_url().url_join(["projects"]));
     let res = self.inner.call(req);
     Box::pin(async move {
-      let res: Response = res.await.map_err(|e| ReqwestGitlabClientError::Send(format!("{e:?}")))?;
-      let body = res.text().await.map_err(|e| ReqwestGitlabClientError::Receive(format!("{e:?}")))?;
+      let res: Response = res
+        .await
+        .map_err(|e| ReqwestGitlabClientError::Send(format!("{e:?}")))?;
+      let body = res
+        .text()
+        .await
+        .map_err(|e| ReqwestGitlabClientError::Receive(format!("{e:?}")))?;
 
       let body: Vec<Project> =
         serde_json::from_str(&body).map_err(|e| ReqwestGitlabClientError::ResponseFormat(format!("{e:?}"), body))?;

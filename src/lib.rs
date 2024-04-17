@@ -1,6 +1,8 @@
 pub use ::reqwest;
 pub use ::tower_service;
 
+use crate::common::project::{Project, ProjectRef};
+use crate::query::get_project_list::GetProjectListQueryView;
 use async_trait::async_trait;
 use chrono::{DateTime, Utc};
 #[cfg(feature = "serde")]
@@ -8,20 +10,25 @@ use serde::{Deserialize, Serialize};
 use thiserror::Error;
 use tower_service::Service;
 use url::Url;
-use crate::common::project::{Project, ProjectRef};
-use crate::query::get_project_list::GetProjectListQueryView;
 
 pub mod client;
 pub mod command;
+mod common;
 #[cfg(feature = "http")]
 pub mod http;
 pub mod query;
-mod common;
+pub mod url_util;
 
 #[async_trait]
-pub trait GitlabClient: Send + Sync {
+pub trait GitlabClient<ExtraInput>: Send + Sync
+where
+  ExtraInput: 'static,
+{
   type Error<'req>;
-  async fn get_project_list(self, query: GetProjectListQueryView<'_>) -> Result<Vec<Project>, Self::Error<'_>>;
+  async fn get_project_list(
+    self,
+    query: GetProjectListQueryView<'_, ExtraInput>,
+  ) -> Result<Vec<Project>, Self::Error<'_>>;
 
   // async fn publish_package_file(
   //   &self,
@@ -41,23 +48,32 @@ pub trait GitlabClient: Send + Sync {
 }
 
 #[async_trait]
-impl<'a, S> GitlabClient for &'a mut S
+impl<'a, S, ExtraInput> GitlabClient<ExtraInput> for &'a mut S
 where
   Self: Send + Sync,
-  S: for<'req> Service<GetProjectListQueryView<'req>, Response = Vec<Project>>,
-  for<'req> <S as Service<GetProjectListQueryView<'req>>>::Future: Send,
+  ExtraInput: 'static + Send + Sync,
+  S: for<'req> Service<GetProjectListQueryView<'req, ExtraInput>, Response = Vec<Project>>,
+  for<'req> <S as Service<GetProjectListQueryView<'req, ExtraInput>>>::Future: Send,
 {
-  type Error<'req> = <S as Service<GetProjectListQueryView<'req>>>::Error;
+  type Error<'req> = <S as Service<GetProjectListQueryView<'req, ExtraInput>>>::Error;
 
-  async fn get_project_list(self, query: GetProjectListQueryView<'_>) -> Result<Vec<Project>, Self::Error<'_>> {
-    self.call(query).await
+  async fn get_project_list(
+    self,
+    query: GetProjectListQueryView<'_, ExtraInput>,
+  ) -> Result<Vec<Project>, Self::Error<'_>> {
+    todo!()
+    // self.call(query).await
   }
+}
+
+pub trait GetGitlabUrl {
+  fn gitlab_url(&self) -> &Url;
 }
 
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct QueryBase<Str = String> {
-  pub instance_url: Str,
+  pub instance_url: Url,
   pub auth: Option<GitlabAuth<Str>>,
 }
 
@@ -66,7 +82,7 @@ pub type QueryBaseView<'req> = QueryBase<&'req str>;
 impl QueryBase<String> {
   pub fn new() -> Self {
     Self {
-      instance_url: String::from("https://gitlab.com/"),
+      instance_url: Url::parse("https://gitlab.com/").unwrap(),
       auth: None,
     }
   }
@@ -76,25 +92,17 @@ impl<Str> QueryBase<Str>
 where
   Str: AsRef<str>,
 {
-  pub fn api_url<I>(&self, segments: I) -> Url
-  where
-    I: IntoIterator,
-    I::Item: AsRef<str>,
-  {
-    let mut res = Url::parse(self.instance_url.as_ref()).expect("invalid instance URL");
-    {
-      let mut p = res.path_segments_mut().expect("GitLab URL has path segments");
-      p.extend(["api", "v4"]);
-      p.extend(segments);
-    }
-    res
-  }
-
   pub fn as_view(&self) -> QueryBaseView<'_> {
     QueryBaseView {
-      instance_url: self.instance_url.as_ref(),
+      instance_url: self.instance_url.clone(),
       auth: self.auth.as_ref().map(|a| a.as_view()),
     }
+  }
+}
+
+impl GetGitlabUrl for QueryBase {
+  fn gitlab_url(&self) -> &Url {
+    &self.instance_url
   }
 }
 
