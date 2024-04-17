@@ -1,0 +1,28 @@
+[package]
+name = "gitlab_client"
+version = "0.13.0"
+authors = ["Charles Samborski <demurgos@demurgos.net>"]
+description = "GitLab client"
+documentation = "https://docs.rs/gitlab_client"
+homepage = "https://github.com/demurgos/gitlab-client"
+repository = "https://github.com/demurgos/gitlab-client"
+readme = "./README.md"
+keywords = ["gitlab", "api"]
+license = "AGPL-3.0-or-later"
+edition = "2021"
+rust-version = "1.77.2"
+
+[dependencies]
+async-trait = "0.1.66"
+chrono = "0.4.24"
+itoa = "1.0.6"
+reqwest = { version = "0.11.14", optional = true, default-features = false, features = ["json", "rustls-tls"] }
+serde = { version = "1.0.155", features = ["derive"], optional = true }
+serde_json = { version = "1.0.94", features = ["preserve_order"], optional = true }
+thiserror = "1.0.40"
+url = { version = "2.3.1", optional = true }
+
+[features]
+default = ["http"]
+serde = ["dep:serde", "chrono/serde"]
+http = ["dep:reqwest", "dep:serde_json", "serde", "url"]
