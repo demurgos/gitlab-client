@@ -3,7 +3,7 @@ use gitlab_client::command::publish_package_file::PublishPackageFileRequest;
 use gitlab_client::query::get_project_list::GetProjectListQuery;
 use gitlab_client::tower_service::Service;
 use gitlab_client::GitlabClient;
-use gitlab_client::{InputPackageStatus, ProjectId, ProjectRef, QueryBase};
+use gitlab_client::{QueryBase};
 
 #[tokio::main]
 async fn main() {

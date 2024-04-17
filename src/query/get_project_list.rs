@@ -1,8 +1,10 @@
 use crate::{
-  AccessLevel, GitlabAuth, InputPackageStatus, ProjectId, ProjectOrderField, ProjectRef, QueryBase, SortOrder, TopicId,
-  Visibility,
+  QueryBase,
 };
 use chrono::{DateTime, Utc};
+use crate::common::{AccessLevel, SortOrder, Visibility};
+use crate::common::project::{ProjectId, ProjectOrderField};
+use crate::common::topic::TopicId;
 
 /// List all projects
 ///
@@ -117,13 +119,4 @@ impl<Str: AsRef<str>> GetProjectListQuery<Str> {
       with_programming_language: Vec::from_iter(self.topic.iter().map(|s| s.as_ref())),
     }
   }
-}
-
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, thiserror::Error)]
-pub enum GetProjectListError<Inner> {
-  #[error("invalid response format: {0}")]
-  ResponseFormat(String),
-  #[error(transparent)]
-  Inner(Inner),
 }

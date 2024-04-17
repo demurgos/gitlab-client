@@ -1,11 +1,13 @@
-use crate::{GitlabAuth, InputPackageStatus, ProjectRef};
+use compact_str::CompactString;
+use crate::{GitlabAuth, InputPackageStatus};
+use crate::common::project::ProjectRef;
 
 /// Publish a generic package file
 ///
 /// <https://docs.gitlab.com/ee/user/packages/generic_packages/#publish-a-package-file>
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct PublishPackageFileRequest<Str = String, Bytes = Vec<u8>, const SELECT: bool = false> {
+pub struct PublishPackageFileRequest<Str = CompactString, Bytes = Vec<u8>, const SELECT: bool = false> {
     pub auth: Option<GitlabAuth<Str>>,
     pub project: ProjectRef<Str>,
     pub package_name: Str,
@@ -30,21 +32,4 @@ impl<Str: AsRef<str>, Bytes: AsRef<[u8]>, const SELECT: bool> PublishPackageFile
             data: self.data.as_ref(),
         }
     }
-}
-
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, thiserror::Error)]
-pub enum PublishPackageFileError<Inner> {
-    #[error("failed to send `PublishPackageFile` request: {0}")]
-    Send(String),
-    #[error("failed to receive `PublishPackageFile` response: {0}")]
-    Receive(String),
-    #[error("failed to parse `PublishPackageFile` response with body = {1}: {0}")]
-    ResponseFormat(String, String),
-    #[error("`PublishPackageFile` is forbidden for provided auth")]
-    Forbidden,
-    #[error("unexpected `PublishPackageFile` error: {0}")]
-    Other(String),
-    #[error(transparent)]
-    Inner(Inner),
 }
