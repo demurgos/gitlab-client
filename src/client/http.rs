@@ -68,11 +68,20 @@ where
   fn call(&mut self, req: &'req GetProjectListQuery<Cx>) -> Self::Future {
     let mut url = req.context.get_ref().url_join(["projects"]);
 
-    let req = Request::builder()
-      .method(Method::GET)
-      .uri(url.as_str())
-      .body(Empty::new())
-      .unwrap();
+    {
+      let mut query = url.query_pairs_mut();
+      if let Some(owned) = req.owned {
+        query.append_pair("owned", if owned { "true" } else { "false" });
+      }
+    }
+
+    let mut http_req = Request::builder().method(Method::GET).uri(url.as_str());
+
+    if let Some(auth) = req.auth.as_ref() {
+      let (key, value) = auth.http_header();
+      http_req = http_req.header(key, value);
+    }
+    let req = http_req.body(Empty::new()).unwrap();
     let res = self.inner.call(req);
     Box::pin(async move {
       let res: Response<TyBody> = res.await.map_err(|e| HttpGitlabClientError::Send(format!("{e:?}")))?;
@@ -118,11 +127,13 @@ where
   fn call(&mut self, req: &'req GetProjectListPageQuery<Cx>) -> Self::Future {
     let mut url = &req.cursor;
 
-    let req = Request::builder()
-      .method(Method::GET)
-      .uri(url.as_str())
-      .body(Empty::new())
-      .unwrap();
+    let mut http_req = Request::builder().method(Method::GET).uri(url.as_str());
+    if let Some(auth) = req.auth.as_ref() {
+      let (key, value) = auth.http_header();
+      http_req = http_req.header(key, value);
+    }
+    let req = http_req.body(Empty::new()).unwrap();
+
     let res = self.inner.call(req);
     Box::pin(async move {
       let res: Response<TyBody> = res.await.map_err(|e| HttpGitlabClientError::Send(format!("{e:?}")))?;

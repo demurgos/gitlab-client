@@ -2,6 +2,7 @@ use crate::common::project::{ProjectId, ProjectOrderField};
 use crate::common::topic::TopicId;
 use crate::common::{AccessLevel, KeysetPagination, SortOrder, Visibility};
 use crate::context::EmptyContext;
+use crate::GitlabAuth;
 use chrono::{DateTime, Utc};
 use compact_str::CompactString;
 
@@ -12,6 +13,7 @@ use compact_str::CompactString;
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct GetProjectListQuery<Cx, Str = CompactString> {
   pub context: Cx,
+  pub auth: Option<GitlabAuth<Str>>,
   pub pagination: Option<KeysetPagination<ProjectOrderField>>,
   pub archived: Option<bool>,
   pub id_after: Option<ProjectId>,
@@ -49,6 +51,7 @@ impl<Cx, Str> GetProjectListQuery<Cx, Str> {
   pub fn set_context<NewCx>(self, new_context: NewCx) -> GetProjectListQuery<NewCx, Str> {
     GetProjectListQuery {
       context: new_context,
+      auth: self.auth,
       pagination: self.pagination,
       archived: self.archived,
       id_after: self.id_after,
@@ -87,6 +90,7 @@ impl<Cx, Str> GetProjectListQuery<Cx, Str> {
   {
     GetProjectListQueryView {
       context: &self.context,
+      auth: self.auth.as_ref().map(GitlabAuth::as_view),
       pagination: self.pagination,
       archived: self.archived,
       id_after: self.id_after,
@@ -124,6 +128,7 @@ impl<Str: AsRef<str>> GetProjectListQuery<EmptyContext, Str> {
   pub const fn new() -> Self {
     Self {
       context: EmptyContext::new(),
+      auth: None,
       pagination: None,
       archived: None,
       id_after: None,

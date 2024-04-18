@@ -148,6 +148,13 @@ impl<Token: AsRef<str>> GitlabAuth<Token> {
       Self::JobToken(token) => GitlabAuth::JobToken(token.as_ref()),
     }
   }
+
+  pub fn http_header(&self) -> (&'static str, &str) {
+    match self {
+      Self::PrivateToken(token) => ("PRIVATE-TOKEN", token.as_ref()),
+      Self::JobToken(token) => ("JOB-TOKEN", token.as_ref()),
+    }
+  }
 }
 
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
