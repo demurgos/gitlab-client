@@ -1,9 +1,10 @@
+#[cfg(feature = "reqwest")]
 pub use ::reqwest;
 pub use ::tower_service;
 use std::future::Future;
 
 use crate::common::project::{Project, ProjectRef};
-use crate::query::get_project_list::GetProjectListQueryView;
+use crate::query::get_project_list::GetProjectListQuery;
 use async_trait::async_trait;
 use chrono::{DateTime, Utc};
 #[cfg(feature = "serde")]
@@ -27,7 +28,7 @@ pub trait GitlabClient<Cx>: Send + Sync {
     Cx: 'req;
   fn get_project_list<'r>(
     self,
-    query: GetProjectListQueryView<'r, Cx>,
+    query: &'r GetProjectListQuery<Cx>,
   ) -> impl Send + Future<Output = Result<Vec<Project>, Self::Error<'r>>>;
 
   // async fn publish_package_file(
@@ -51,15 +52,15 @@ impl<'a, S, Cx> GitlabClient<Cx> for &'a mut S
 where
   Self: Send + Sync,
   Cx: 'static + Send + Sync,
-  for<'req> S: Service<GetProjectListQueryView<'req, Cx>, Response = Vec<Project>>,
-  <S as Service<GetProjectListQueryView<'a, Cx>>>::Future: Send,
+  for<'req> S: Service<&'req GetProjectListQuery<Cx>, Response = Vec<Project>>,
+  for<'req> <S as Service<&'req GetProjectListQuery<Cx>>>::Future: Send,
 {
-  type Error<'req> = <S as Service<GetProjectListQueryView<'req, Cx>>>::Error
+  type Error<'req> = <S as Service<&'req GetProjectListQuery<Cx>>>::Error
     where Cx: 'req;
 
-  async fn get_project_list<'r>(self, query: GetProjectListQueryView<'r, Cx>) -> Result<Vec<Project>, Self::Error<'r>> {
-    // self.call(query).await
-    todo!()
+  async fn get_project_list<'r>(self, query: &'r GetProjectListQuery<Cx>) -> Result<Vec<Project>, Self::Error<'r>> {
+    self.call(query).await
+    // todo!()
     // let res: Result<Vec<Project>, S::Error> = self.call(query).await;
     // res
   }

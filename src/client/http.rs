@@ -1,5 +1,5 @@
 use crate::context::{GetRef, GitlabUrl};
-use crate::query::get_project_list::GetProjectListQueryView;
+use crate::query::get_project_list::GetProjectListQuery;
 use crate::url_util::UrlExt;
 use crate::Project;
 use bytes::Bytes;
@@ -38,7 +38,7 @@ pub enum HttpGitlabClientError {
   Other(String),
 }
 
-impl<'req, Cx, TyInner, TyBody> Service<GetProjectListQueryView<'req, Cx>> for HttpGitlabClient<TyInner>
+impl<'req, Cx, TyInner, TyBody> Service<&'req GetProjectListQuery<Cx>> for HttpGitlabClient<TyInner>
 where
   Cx: GetRef<GitlabUrl>,
   TyInner: Service<Request<Empty<Bytes>>, Response = Response<TyBody>> + 'req,
@@ -59,7 +59,7 @@ where
       .map_err(|e| HttpGitlabClientError::PollReady(format!("{e:?}")))
   }
 
-  fn call(&mut self, req: GetProjectListQueryView<'req, Cx>) -> Self::Future {
+  fn call(&mut self, req: &'req GetProjectListQuery<Cx>) -> Self::Future {
     let req = Request::builder()
       .method(Method::GET)
       .uri(req.context.get_ref().url_join(["projects"]).as_str())
