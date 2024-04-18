@@ -24,6 +24,7 @@ bytes = "1.6.0"
 chrono = "0.4.24"
 compact_str = "0.7.1"
 futures = "0.3.30"
+headers_link = { git = "https://github.com/jplatte/headers.git", rev = "91f8bd447382da3c021d965f60da41adf5bb27ad", package = "headers", optional = true }
 http = { version = "1.1.0", optional = true }
 http-body = { version = "1.0.0", optional = true }
 http-body-util = { version = "0.1.1", optional = true }
@@ -38,5 +39,5 @@ url = { version = "2.3.1", optional = true }
 [features]
 default = []
 serde = ["dep:serde", "bytes/serde", "compact_str/serde", "chrono/serde", "url?/serde"]
-http = ["dep:http", "dep:http-body", "dep:http-body-util", "dep:serde_json", "serde", "url"]
+http = ["dep:headers_link", "dep:http", "dep:http-body", "dep:http-body-util", "dep:serde_json", "serde", "url"]
 reqwest = ["dep:reqwest", "dep:serde_json", "serde", "url"]

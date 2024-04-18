@@ -49,6 +49,8 @@ pub struct KeysetPagination<TyOrderBy> {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Page<T> {
+  /// Cursor to the first page
+  pub first: Option<CompactString>,
   /// Cursor to the next page
   pub next: Option<CompactString>,
   pub items: Vec<T>,
