@@ -1,6 +1,6 @@
 use crate::common::project::{ProjectId, ProjectOrderField};
 use crate::common::topic::TopicId;
-use crate::common::{AccessLevel, SortOrder, Visibility};
+use crate::common::{AccessLevel, KeysetPagination, SortOrder, Visibility};
 use crate::context::EmptyContext;
 use chrono::{DateTime, Utc};
 use compact_str::CompactString;
@@ -12,6 +12,7 @@ use compact_str::CompactString;
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct GetProjectListQuery<Cx, Str = CompactString> {
   pub context: Cx,
+  pub pagination: Option<KeysetPagination<ProjectOrderField>>,
   pub archived: Option<bool>,
   pub id_after: Option<ProjectId>,
   pub id_before: Option<ProjectId>,
@@ -22,14 +23,12 @@ pub struct GetProjectListQuery<Cx, Str = CompactString> {
   pub last_activity_before: Option<DateTime<Utc>>,
   pub membership: Option<bool>,
   pub min_access_level: Option<AccessLevel>,
-  pub order_by: Option<ProjectOrderField>,
   pub owned: Option<bool>,
   pub repository_checksum_failed: Option<bool>,
   pub repository_storage: Option<Str>,
   pub search_namespaces: Option<bool>,
   pub search: Option<Str>,
   pub simple: Option<bool>,
-  pub sort: Option<SortOrder>,
   pub starred: Option<bool>,
   pub statistics: Option<bool>,
   pub topic_ic: Option<TopicId>,
@@ -50,6 +49,7 @@ impl<Cx, Str> GetProjectListQuery<Cx, Str> {
   pub fn set_context<NewCx>(self, new_context: NewCx) -> GetProjectListQuery<NewCx, Str> {
     GetProjectListQuery {
       context: new_context,
+      pagination: self.pagination,
       archived: self.archived,
       id_after: self.id_after,
       id_before: self.id_before,
@@ -60,14 +60,12 @@ impl<Cx, Str> GetProjectListQuery<Cx, Str> {
       last_activity_before: self.last_activity_before,
       membership: self.membership,
       min_access_level: self.min_access_level,
-      order_by: self.order_by,
       owned: self.owned,
       repository_checksum_failed: self.repository_checksum_failed,
       repository_storage: self.repository_storage,
       search_namespaces: self.search_namespaces,
       search: self.search,
       simple: self.simple,
-      sort: self.sort,
       starred: self.starred,
       statistics: self.statistics,
       topic_ic: self.topic_ic,
@@ -89,6 +87,7 @@ impl<Cx, Str> GetProjectListQuery<Cx, Str> {
   {
     GetProjectListQueryView {
       context: &self.context,
+      pagination: self.pagination,
       archived: self.archived,
       id_after: self.id_after,
       id_before: self.id_before,
@@ -99,14 +98,12 @@ impl<Cx, Str> GetProjectListQuery<Cx, Str> {
       last_activity_before: self.last_activity_before,
       membership: self.membership,
       min_access_level: self.min_access_level,
-      order_by: self.order_by,
       owned: self.owned,
       repository_checksum_failed: self.repository_checksum_failed,
       repository_storage: self.repository_storage.as_ref().map(|s| s.as_ref()),
       search_namespaces: self.search_namespaces,
       search: self.search.as_ref().map(|s| s.as_ref()),
       simple: self.simple,
-      sort: self.sort,
       starred: self.starred,
       statistics: self.statistics,
       topic_ic: self.topic_ic,
@@ -127,6 +124,7 @@ impl<Str: AsRef<str>> GetProjectListQuery<EmptyContext, Str> {
   pub const fn new() -> Self {
     Self {
       context: EmptyContext::new(),
+      pagination: None,
       archived: None,
       id_after: None,
       id_before: None,
@@ -137,14 +135,12 @@ impl<Str: AsRef<str>> GetProjectListQuery<EmptyContext, Str> {
       last_activity_before: None,
       membership: None,
       min_access_level: None,
-      order_by: None,
       owned: None,
       repository_checksum_failed: None,
       repository_storage: None,
       search_namespaces: None,
       search: None,
       simple: None,
-      sort: None,
       starred: None,
       statistics: None,
       topic_ic: None,
