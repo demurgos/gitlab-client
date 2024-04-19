@@ -1,4 +1,4 @@
-use crate::common::project::{ProjectId, ProjectOrderField};
+use crate::common::project::{ProjectId, ProjectOrder};
 use crate::common::topic::TopicId;
 use crate::common::{AccessLevel, KeysetPagination, SortOrder, Visibility};
 use crate::context::EmptyContext;
@@ -14,7 +14,7 @@ use compact_str::CompactString;
 pub struct GetProjectListQuery<Cx, Str = CompactString> {
   pub context: Cx,
   pub auth: Option<GitlabAuth<Str>>,
-  pub pagination: Option<KeysetPagination<ProjectOrderField>>,
+  pub pagination: Option<KeysetPagination<ProjectOrder>>,
   pub archived: Option<bool>,
   pub id_after: Option<ProjectId>,
   pub id_before: Option<ProjectId>,

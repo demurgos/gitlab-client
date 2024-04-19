@@ -1,9 +1,6 @@
-use crate::common::project::{ProjectId, ProjectOrderField, ProjectRef};
-use crate::common::topic::TopicId;
-use crate::common::{AccessLevel, KeysetPagination, SortOrder, Visibility};
+use crate::common::project::ProjectRef;
 use crate::context::EmptyContext;
 use crate::GitlabAuth;
-use chrono::{DateTime, Utc};
 use compact_str::CompactString;
 
 /// Get a single project

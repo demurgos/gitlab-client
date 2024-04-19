@@ -4,13 +4,16 @@ use std::num::NonZeroU8;
 pub mod namespace;
 pub mod package;
 pub mod project;
+pub mod release;
 pub mod topic;
 pub mod user;
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum SortOrder {
+  /// Ascending: lowest first, largest last
   Asc,
+  /// Descending: largest first, lowest last
   Desc,
 }
 
