@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 /// <https://docs.gitlab.com/ee/api/releases/#create-a-release>
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct CreateReleaseRequest<Cx, Str = String, Assets = InputReleaseAssets> {
+pub struct CreateReleaseCommand<Cx, Str = String, Assets = InputReleaseAssets> {
   pub context: Cx,
   pub auth: Option<GitlabAuth<Str>>,
   pub project: ProjectRef<Str>,
@@ -23,15 +23,15 @@ pub struct CreateReleaseRequest<Cx, Str = String, Assets = InputReleaseAssets> {
   pub released_at: Option<DateTime<Utc>>,
 }
 
-pub type CreateReleaseRequestView<'req, Cx, Str> =
-  CreateReleaseRequest<&'req Cx, &'req str, InputReleaseAssetsView<'req, Str>>;
+pub type CreateReleaseCommandView<'req, Cx, Str> =
+  CreateReleaseCommand<&'req Cx, &'req str, InputReleaseAssetsView<'req, Str>>;
 
-impl<Cx, Str: AsRef<str>, Links> CreateReleaseRequest<Cx, Str, InputReleaseAssets<Links>>
+impl<Cx, Str: AsRef<str>, Links> CreateReleaseCommand<Cx, Str, InputReleaseAssets<Links>>
 where
   Links: AsRef<[InputReleaseLink<Str>]>,
 {
-  pub fn as_view(&self) -> CreateReleaseRequestView<'_, Cx, Str> {
-    CreateReleaseRequestView {
+  pub fn as_view(&self) -> CreateReleaseCommandView<'_, Cx, Str> {
+    CreateReleaseCommandView {
       context: &self.context,
       auth: self.auth.as_ref().map(GitlabAuth::as_view),
       project: self.project.as_view(),

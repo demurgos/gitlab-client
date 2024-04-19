@@ -3,7 +3,6 @@ use crate::common::user::{User, UserId};
 use crate::common::{AccessLevel, Visibility};
 use chrono::{DateTime, Utc};
 use compact_str::CompactString;
-use serde::{Deserialize, Serialize};
 use url::Url;
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]

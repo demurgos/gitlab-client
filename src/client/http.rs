@@ -1,22 +1,28 @@
+use crate::command::create_release::CreateReleaseCommand;
+use crate::command::create_release_link::CreateReleaseLinkCommand;
 use crate::command::publish_package_file::PublishPackageFileCommand;
 use crate::common::package::GenericPackageFile;
+use crate::common::release::{InputReleaseAssetsView, Release, ReleaseLink};
 use crate::common::Page;
 use crate::context::{GetRef, GitlabUrl};
 use crate::query::get_package_file::GetPackageFileQuery;
 use crate::query::get_project::GetProjectQuery;
 use crate::query::get_project_list::GetProjectListQuery;
 use crate::query::get_project_list_page::GetProjectListPageQuery;
+use crate::query::get_project_release::GetProjectReleaseQuery;
 use crate::url_util::UrlExt;
 use crate::{GitlabAuth, GitlabAuthView, InputPackageStatus, Project};
 use bytes::Bytes;
+use chrono::{DateTime, Utc};
 use compact_str::CompactString;
 use core::task::{Context, Poll};
 use futures::future::BoxFuture;
 use headers_link::link::{Link, RelationType};
 use headers_link::Header;
+use http::header::CONTENT_TYPE;
 use http::{HeaderMap, Method, Request, Response, StatusCode};
 use http_body::Body;
-use http_body_util::{BodyExt, Empty, Full};
+use http_body_util::{BodyExt, Full};
 use std::error::Error as StdError;
 use std::str::FromStr;
 use tower_service::Service;
@@ -44,6 +50,10 @@ pub enum HttpGitlabClientError {
   ResponseFormat(String, Bytes),
   #[error("operation is forbidden for provided auth")]
   Forbidden,
+  #[error("resource already exists")]
+  Conflict,
+  #[error("resource not found")]
+  NotFound,
   #[error("unexpected error: {0}")]
   Other(String),
 }
@@ -274,6 +284,68 @@ where
   }
 }
 
+impl<'req, Cx, TyInner, TyBody> Service<&'req GetProjectReleaseQuery<Cx>> for HttpGitlabClient<TyInner>
+where
+  Cx: GetRef<GitlabUrl>,
+  TyInner: Service<Request<Full<Bytes>>, Response = Response<TyBody>> + 'req,
+  TyInner::Error: StdError,
+  TyInner::Future: Send,
+  TyBody: Body + Send,
+  TyBody::Data: Send,
+  TyBody::Error: StdError,
+{
+  type Response = Release;
+  type Error = HttpGitlabClientError;
+  type Future = BoxFuture<'req, Result<Self::Response, Self::Error>>;
+
+  fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
+    self
+      .inner
+      .poll_ready(cx)
+      .map_err(|e| HttpGitlabClientError::PollReady(format!("{e:?}")))
+  }
+
+  fn call(&mut self, req: &'req GetProjectReleaseQuery<Cx>) -> Self::Future {
+    let url = req.project.with_str(|project| {
+      req
+        .context
+        .get_ref()
+        .url_join(["projects", project, "releases", &req.tag_name])
+    });
+    let req = Request::builder()
+      .method(Method::GET)
+      .uri(url.as_str())
+      .gitlab_auth(req.auth.as_ref().map(GitlabAuth::as_view))
+      .body(Full::new(Bytes::new()))
+      .unwrap();
+
+    let res = self.inner.call(req);
+    Box::pin(async move {
+      let res: Response<TyBody> = res.await.map_err(|e| HttpGitlabClientError::Send(format!("{e:?}")))?;
+      match res.status() {
+        StatusCode::OK => {
+          let body = res
+            .into_body()
+            .collect()
+            .await
+            .map_err(|e| HttpGitlabClientError::Receive(format!("{e:?}")))?;
+          let body: Bytes = body.to_bytes();
+
+          let body: Release =
+            serde_json::from_slice(&body).map_err(|e| HttpGitlabClientError::ResponseFormat(format!("{e:?}"), body))?;
+
+          Ok(body)
+        }
+        StatusCode::NOT_FOUND => Err(HttpGitlabClientError::NotFound),
+        code => Err(HttpGitlabClientError::Receive(format!(
+          "unexpected status code: {}",
+          code
+        ))),
+      }
+    })
+  }
+}
+
 impl<'req, Cx, TyInner, TyBody> Service<&'req PublishPackageFileCommand<Cx>> for HttpGitlabClient<TyInner>
 where
   Cx: GetRef<GitlabUrl>,
@@ -339,6 +411,170 @@ where
             .map_err(|e| HttpGitlabClientError::Receive(format!("{e:?}")))?;
           let body: Bytes = body.to_bytes();
           let body: GenericPackageFile =
+            serde_json::from_slice(&body).map_err(|e| HttpGitlabClientError::ResponseFormat(format!("{e:?}"), body))?;
+          Ok(body)
+        }
+        StatusCode::FORBIDDEN => Err(HttpGitlabClientError::Forbidden),
+        code => Err(HttpGitlabClientError::Receive(format!(
+          "unexpected status code: {}",
+          code
+        ))),
+      }
+    })
+  }
+}
+
+impl<'req, Cx, TyInner, TyBody> Service<&'req CreateReleaseCommand<Cx>> for HttpGitlabClient<TyInner>
+where
+  Cx: GetRef<GitlabUrl>,
+  TyInner: Service<Request<Full<Bytes>>, Response = Response<TyBody>> + 'req,
+  TyInner::Error: StdError,
+  TyInner::Future: Send,
+  TyBody: Body + Send,
+  TyBody::Data: Send,
+  TyBody::Error: StdError,
+{
+  type Response = Release;
+  type Error = HttpGitlabClientError;
+  type Future = BoxFuture<'req, Result<Self::Response, Self::Error>>;
+
+  fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
+    self
+      .inner
+      .poll_ready(cx)
+      .map_err(|e| HttpGitlabClientError::PollReady(format!("{e:?}")))
+  }
+
+  fn call(&mut self, req: &'req CreateReleaseCommand<Cx>) -> Self::Future {
+    #[derive(Debug, serde::Serialize)]
+    struct Body<'r> {
+      name: Option<&'r str>,
+      tag_name: &'r str,
+      tag_message: Option<&'r str>,
+      description: Option<&'r str>,
+      r#ref: Option<&'r str>,
+      assets: InputReleaseAssetsView<'r>,
+      released_at: Option<DateTime<Utc>>,
+    }
+
+    let mut url = req
+      .project
+      .with_str(|project| req.context.get_ref().url_join(["projects", project, "releases"]));
+
+    let body = serde_json::to_vec(&Body {
+      name: req.name.as_ref().map(|s| s.as_str()),
+      tag_name: req.tag_name.as_str(),
+      tag_message: req.tag_message.as_ref().map(|s| s.as_str()),
+      description: req.description.as_ref().map(|s| s.as_str()),
+      r#ref: req.r#ref.as_ref().map(|s| s.as_str()),
+      assets: req.assets.as_view(),
+      released_at: req.released_at,
+    })
+    .unwrap();
+
+    let req = Request::builder()
+      .method(Method::GET)
+      .uri(url.as_str())
+      .gitlab_auth(req.auth.as_ref().map(GitlabAuth::as_view))
+      .header(CONTENT_TYPE, "application/json")
+      .body(Full::new(Bytes::from(body)))
+      .unwrap();
+
+    let res = self.inner.call(req);
+    Box::pin(async move {
+      let res: Response<TyBody> = res.await.map_err(|e| HttpGitlabClientError::Send(format!("{e:?}")))?;
+      match res.status() {
+        StatusCode::OK | StatusCode::CREATED => {
+          let body = res
+            .into_body()
+            .collect()
+            .await
+            .map_err(|e| HttpGitlabClientError::Receive(format!("{e:?}")))?;
+          let body: Bytes = body.to_bytes();
+          let body: Release =
+            serde_json::from_slice(&body).map_err(|e| HttpGitlabClientError::ResponseFormat(format!("{e:?}"), body))?;
+          Ok(body)
+        }
+        StatusCode::CONFLICT => Err(HttpGitlabClientError::Conflict),
+        StatusCode::FORBIDDEN => Err(HttpGitlabClientError::Forbidden),
+        code => Err(HttpGitlabClientError::Receive(format!(
+          "unexpected status code: {}",
+          code
+        ))),
+      }
+    })
+  }
+}
+
+impl<'req, Cx, TyInner, TyBody> Service<&'req CreateReleaseLinkCommand<Cx>> for HttpGitlabClient<TyInner>
+where
+  Cx: GetRef<GitlabUrl>,
+  TyInner: Service<Request<Full<Bytes>>, Response = Response<TyBody>> + 'req,
+  TyInner::Error: StdError,
+  TyInner::Future: Send,
+  TyBody: Body + Send,
+  TyBody::Data: Send,
+  TyBody::Error: StdError,
+{
+  type Response = ReleaseLink;
+  type Error = HttpGitlabClientError;
+  type Future = BoxFuture<'req, Result<Self::Response, Self::Error>>;
+
+  fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
+    self
+      .inner
+      .poll_ready(cx)
+      .map_err(|e| HttpGitlabClientError::PollReady(format!("{e:?}")))
+  }
+
+  fn call(&mut self, req: &'req CreateReleaseLinkCommand<Cx>) -> Self::Future {
+    #[derive(Debug, serde::Serialize)]
+    struct Body<'r> {
+      name: &'r str,
+      url: &'r str,
+      direct_asset_path: Option<&'r str>,
+      link_type: &'r str,
+    }
+
+    let mut url = req.project.with_str(|project| {
+      req.context.get_ref().url_join([
+        "projects",
+        project,
+        "releases",
+        req.tag_name.as_str(),
+        "assets",
+        "links",
+      ])
+    });
+
+    let body = serde_json::to_vec(&Body {
+      name: req.name.as_str(),
+      url: req.url.as_str(),
+      direct_asset_path: req.direct_asset_path.as_ref().map(|s| s.as_str()),
+      link_type: req.link_type.as_str(),
+    })
+    .unwrap();
+
+    let req = Request::builder()
+      .method(Method::GET)
+      .uri(url.as_str())
+      .gitlab_auth(req.auth.as_ref().map(GitlabAuth::as_view))
+      .header(CONTENT_TYPE, "application/json")
+      .body(Full::new(Bytes::from(body)))
+      .unwrap();
+
+    let res = self.inner.call(req);
+    Box::pin(async move {
+      let res: Response<TyBody> = res.await.map_err(|e| HttpGitlabClientError::Send(format!("{e:?}")))?;
+      match res.status() {
+        StatusCode::OK | StatusCode::CREATED => {
+          let body = res
+            .into_body()
+            .collect()
+            .await
+            .map_err(|e| HttpGitlabClientError::Receive(format!("{e:?}")))?;
+          let body: Bytes = body.to_bytes();
+          let body: ReleaseLink =
             serde_json::from_slice(&body).map_err(|e| HttpGitlabClientError::ResponseFormat(format!("{e:?}"), body))?;
           Ok(body)
         }

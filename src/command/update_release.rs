@@ -2,7 +2,6 @@ use crate::common::project::ProjectRef;
 use crate::GitlabAuth;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
-use thiserror::Error;
 
 /// Update a project release
 ///

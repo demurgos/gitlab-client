@@ -1,4 +1,4 @@
 pub mod create_release;
-mod create_release_link;
+pub mod create_release_link;
 pub mod publish_package_file;
 pub mod update_release;
