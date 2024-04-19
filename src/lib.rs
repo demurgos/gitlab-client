@@ -1,6 +1,9 @@
+pub use ::chrono;
+pub use ::compact_str;
 #[cfg(feature = "reqwest")]
 pub use ::reqwest;
 pub use ::tower_service;
+pub use ::url;
 use std::future::Future;
 
 use crate::common::project::{Project, ProjectRef};
@@ -65,36 +68,6 @@ where
 }
 
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct QueryBase<Str = String> {
-  pub instance_url: Url,
-  pub auth: Option<GitlabAuth<Str>>,
-}
-
-pub type QueryBaseView<'req> = QueryBase<&'req str>;
-
-impl QueryBase<String> {
-  pub fn new() -> Self {
-    Self {
-      instance_url: Url::parse("https://gitlab.com/").unwrap(),
-      auth: None,
-    }
-  }
-}
-
-impl<Str> QueryBase<Str>
-where
-  Str: AsRef<str>,
-{
-  pub fn as_view(&self) -> QueryBaseView<'_> {
-    QueryBaseView {
-      instance_url: self.instance_url.clone(),
-      auth: self.auth.as_ref().map(|a| a.as_view()),
-    }
-  }
-}
-
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum InputPackageStatus {
   Default,
@@ -155,76 +128,6 @@ impl<Token: AsRef<str>> GitlabAuth<Token> {
       Self::JobToken(token) => ("JOB-TOKEN", token.as_ref()),
     }
   }
-}
-
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct GenericPackageFile {
-  pub id: u64,
-  pub package_id: u64,
-  pub created_at: DateTime<Utc>,
-  pub updated_at: DateTime<Utc>,
-  pub size: u64,
-  pub file_store: u64,
-  pub file_md5: Option<String>,
-  pub file_sha1: Option<String>,
-  pub file_name: String,
-  pub file: GitlabFile,
-  pub file_sha256: Option<String>,
-  pub verification_retry_at: Option<DateTime<Utc>>,
-  pub verified_at: Option<DateTime<Utc>>,
-  pub verification_failure: Option<String>,
-  pub verification_retry_count: Option<u64>,
-  pub verification_checksum: Option<String>,
-  pub verification_state: u64,
-  pub verification_started_at: Option<DateTime<Utc>>,
-  pub status: String,
-  // TODO: PackageStatus
-  pub new_file_path: Option<String>,
-}
-
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct GitlabFile {
-  pub url: String,
-}
-
-/// Get a generic package file
-///
-/// <https://docs.gitlab.com/ee/user/packages/generic_packages/#download-package-file>
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct GetPackageFileRequest<Str = String> {
-  pub auth: Option<GitlabAuth<Str>>,
-  pub project: ProjectRef<Str>,
-  pub package_name: Str,
-  pub package_version: Str,
-  pub filename: Str,
-}
-
-pub type GetPackageFileRequestView<'req> = GetPackageFileRequest<&'req str>;
-
-impl<Str: AsRef<str>> GetPackageFileRequest<Str> {
-  pub fn as_view(&self) -> GetPackageFileRequestView<'_> {
-    GetPackageFileRequestView {
-      auth: self.auth.as_ref().map(GitlabAuth::as_view),
-      project: self.project.as_view(),
-      package_name: self.package_name.as_ref(),
-      package_version: self.package_version.as_ref(),
-      filename: self.filename.as_ref(),
-    }
-  }
-}
-
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Error)]
-pub enum GetPackageFileError {
-  #[error("failed to send `GetPackageFile` request: {0}")]
-  Send(String),
-  #[error("failed to receive `GetPackageFile` response: {0}")]
-  Receive(String),
-  #[error("unexpected `GetPackageFile` error: {0}")]
-  Other(String),
 }
 
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]

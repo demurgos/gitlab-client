@@ -1,18 +1,22 @@
+use crate::command::publish_package_file::PublishPackageFileCommand;
+use crate::common::package::GenericPackageFile;
 use crate::common::Page;
 use crate::context::{GetRef, GitlabUrl};
+use crate::query::get_package_file::GetPackageFileQuery;
+use crate::query::get_project::GetProjectQuery;
 use crate::query::get_project_list::GetProjectListQuery;
 use crate::query::get_project_list_page::GetProjectListPageQuery;
 use crate::url_util::UrlExt;
-use crate::Project;
+use crate::{GitlabAuth, GitlabAuthView, InputPackageStatus, Project};
 use bytes::Bytes;
 use compact_str::CompactString;
 use core::task::{Context, Poll};
 use futures::future::BoxFuture;
 use headers_link::link::{Link, RelationType};
 use headers_link::Header;
-use http::{HeaderMap, Method, Request, Response};
+use http::{HeaderMap, Method, Request, Response, StatusCode};
 use http_body::Body;
-use http_body_util::{BodyExt, Empty};
+use http_body_util::{BodyExt, Empty, Full};
 use std::error::Error as StdError;
 use std::str::FromStr;
 use tower_service::Service;
@@ -47,7 +51,7 @@ pub enum HttpGitlabClientError {
 impl<'req, Cx, TyInner, TyBody> Service<&'req GetProjectListQuery<Cx>> for HttpGitlabClient<TyInner>
 where
   Cx: GetRef<GitlabUrl>,
-  TyInner: Service<Request<Empty<Bytes>>, Response = Response<TyBody>> + 'req,
+  TyInner: Service<Request<Full<Bytes>>, Response = Response<TyBody>> + 'req,
   TyInner::Error: StdError,
   TyInner::Future: Send,
   TyBody: Body + Send,
@@ -75,13 +79,12 @@ where
       }
     }
 
-    let mut http_req = Request::builder().method(Method::GET).uri(url.as_str());
-
-    if let Some(auth) = req.auth.as_ref() {
-      let (key, value) = auth.http_header();
-      http_req = http_req.header(key, value);
-    }
-    let req = http_req.body(Empty::new()).unwrap();
+    let req = Request::builder()
+      .method(Method::GET)
+      .uri(url.as_str())
+      .gitlab_auth(req.auth.as_ref().map(GitlabAuth::as_view))
+      .body(Full::new(Bytes::new()))
+      .unwrap();
     let res = self.inner.call(req);
     Box::pin(async move {
       let res: Response<TyBody> = res.await.map_err(|e| HttpGitlabClientError::Send(format!("{e:?}")))?;
@@ -106,7 +109,7 @@ where
 
 impl<'req, Cx, TyInner, TyBody> Service<&'req GetProjectListPageQuery<Cx>> for HttpGitlabClient<TyInner>
 where
-  TyInner: Service<Request<Empty<Bytes>>, Response = Response<TyBody>> + 'req,
+  TyInner: Service<Request<Full<Bytes>>, Response = Response<TyBody>> + 'req,
   TyInner::Error: StdError,
   TyInner::Future: Send,
   TyBody: Body + Send,
@@ -127,12 +130,12 @@ where
   fn call(&mut self, req: &'req GetProjectListPageQuery<Cx>) -> Self::Future {
     let mut url = &req.cursor;
 
-    let mut http_req = Request::builder().method(Method::GET).uri(url.as_str());
-    if let Some(auth) = req.auth.as_ref() {
-      let (key, value) = auth.http_header();
-      http_req = http_req.header(key, value);
-    }
-    let req = http_req.body(Empty::new()).unwrap();
+    let req = Request::builder()
+      .method(Method::GET)
+      .uri(url.as_str())
+      .gitlab_auth(req.auth.as_ref().map(GitlabAuth::as_view))
+      .body(Full::new(Bytes::new()))
+      .unwrap();
 
     let res = self.inner.call(req);
     Box::pin(async move {
@@ -152,6 +155,199 @@ where
         next: cursors.next,
         items: body,
       })
+    })
+  }
+}
+
+impl<'req, Cx, TyInner, TyBody> Service<&'req GetProjectQuery<Cx>> for HttpGitlabClient<TyInner>
+where
+  Cx: GetRef<GitlabUrl>,
+  TyInner: Service<Request<Full<Bytes>>, Response = Response<TyBody>> + 'req,
+  TyInner::Error: StdError,
+  TyInner::Future: Send,
+  TyBody: Body + Send,
+  TyBody::Data: Send,
+  TyBody::Error: StdError,
+{
+  type Response = Project;
+  type Error = HttpGitlabClientError;
+  type Future = BoxFuture<'req, Result<Self::Response, Self::Error>>;
+
+  fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
+    self
+      .inner
+      .poll_ready(cx)
+      .map_err(|e| HttpGitlabClientError::PollReady(format!("{e:?}")))
+  }
+
+  fn call(&mut self, req: &'req GetProjectQuery<Cx>) -> Self::Future {
+    let mut url = req.id.with_str(|id| req.context.get_ref().url_join(["projects", id]));
+
+    {
+      let mut query = url.query_pairs_mut();
+      if let Some(license) = req.license {
+        query.append_pair("license", license.as_str());
+      }
+      if let Some(statistics) = req.statistics {
+        query.append_pair("statistics", statistics.as_str());
+      }
+      if let Some(with_custom_attributes) = req.with_custom_attributes {
+        query.append_pair("with_custom_attributes", with_custom_attributes.as_str());
+      }
+    }
+
+    let req = Request::builder()
+      .method(Method::GET)
+      .uri(url.as_str())
+      .gitlab_auth(req.auth.as_ref().map(GitlabAuth::as_view))
+      .body(Full::new(Bytes::new()))
+      .unwrap();
+
+    let res = self.inner.call(req);
+    Box::pin(async move {
+      let res: Response<TyBody> = res.await.map_err(|e| HttpGitlabClientError::Send(format!("{e:?}")))?;
+      let body = res
+        .into_body()
+        .collect()
+        .await
+        .map_err(|e| HttpGitlabClientError::Receive(format!("{e:?}")))?;
+      let body: Bytes = body.to_bytes();
+
+      let body: Project =
+        serde_json::from_slice(&body).map_err(|e| HttpGitlabClientError::ResponseFormat(format!("{e:?}"), body))?;
+      Ok(body)
+    })
+  }
+}
+
+impl<'req, Cx, TyInner, TyBody> Service<&'req GetPackageFileQuery<Cx>> for HttpGitlabClient<TyInner>
+where
+  Cx: GetRef<GitlabUrl>,
+  TyInner: Service<Request<Full<Bytes>>, Response = Response<TyBody>> + 'req,
+  TyInner::Error: StdError,
+  TyInner::Future: Send,
+  TyBody: Body + Send,
+  TyBody::Data: Send,
+  TyBody::Error: StdError,
+{
+  type Response = Bytes;
+  type Error = HttpGitlabClientError;
+  type Future = BoxFuture<'req, Result<Self::Response, Self::Error>>;
+
+  fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
+    self
+      .inner
+      .poll_ready(cx)
+      .map_err(|e| HttpGitlabClientError::PollReady(format!("{e:?}")))
+  }
+
+  fn call(&mut self, req: &'req GetPackageFileQuery<Cx>) -> Self::Future {
+    let url = req.project.with_str(|project| {
+      req.context.get_ref().url_join([
+        "projects",
+        project,
+        "packages",
+        "generic",
+        &req.package_name,
+        &req.package_version,
+        &req.filename,
+      ])
+    });
+    let req = Request::builder()
+      .method(Method::GET)
+      .uri(url.as_str())
+      .gitlab_auth(req.auth.as_ref().map(GitlabAuth::as_view))
+      .body(Full::new(Bytes::new()))
+      .unwrap();
+
+    let res = self.inner.call(req);
+    Box::pin(async move {
+      let res: Response<TyBody> = res.await.map_err(|e| HttpGitlabClientError::Send(format!("{e:?}")))?;
+      let body = res
+        .into_body()
+        .collect()
+        .await
+        .map_err(|e| HttpGitlabClientError::Receive(format!("{e:?}")))?;
+      let body: Bytes = body.to_bytes();
+      Ok(body)
+    })
+  }
+}
+
+impl<'req, Cx, TyInner, TyBody> Service<&'req PublishPackageFileCommand<Cx>> for HttpGitlabClient<TyInner>
+where
+  Cx: GetRef<GitlabUrl>,
+  TyInner: Service<Request<Full<Bytes>>, Response = Response<TyBody>> + 'req,
+  TyInner::Error: StdError,
+  TyInner::Future: Send,
+  TyBody: Body + Send,
+  TyBody::Data: Send,
+  TyBody::Error: StdError,
+{
+  type Response = GenericPackageFile;
+  type Error = HttpGitlabClientError;
+  type Future = BoxFuture<'req, Result<Self::Response, Self::Error>>;
+
+  fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
+    self
+      .inner
+      .poll_ready(cx)
+      .map_err(|e| HttpGitlabClientError::PollReady(format!("{e:?}")))
+  }
+
+  fn call(&mut self, req: &'req PublishPackageFileCommand<Cx>) -> Self::Future {
+    let mut url = req.project.with_str(|project| {
+      req.context.get_ref().url_join([
+        "projects",
+        project,
+        "packages",
+        "generic",
+        &req.package_name,
+        &req.package_version,
+        &req.filename,
+      ])
+    });
+
+    {
+      let mut q = url.query_pairs_mut();
+      q.append_pair(
+        "status",
+        match req.status {
+          InputPackageStatus::Default => "default",
+          InputPackageStatus::Hidden => "hidden",
+        },
+      );
+      q.append_pair("select", "package_file");
+    }
+
+    let req = Request::builder()
+      .method(Method::GET)
+      .uri(url.as_str())
+      .gitlab_auth(req.auth.as_ref().map(GitlabAuth::as_view))
+      .body(Full::new(Bytes::from(req.data.clone())))
+      .unwrap();
+
+    let res = self.inner.call(req);
+    Box::pin(async move {
+      let res: Response<TyBody> = res.await.map_err(|e| HttpGitlabClientError::Send(format!("{e:?}")))?;
+      match res.status() {
+        StatusCode::OK | StatusCode::CREATED => {
+          let body = res
+            .into_body()
+            .collect()
+            .await
+            .map_err(|e| HttpGitlabClientError::Receive(format!("{e:?}")))?;
+          let body: Bytes = body.to_bytes();
+          let body: GenericPackageFile =
+            serde_json::from_slice(&body).map_err(|e| HttpGitlabClientError::ResponseFormat(format!("{e:?}"), body))?;
+          Ok(body)
+        }
+        StatusCode::FORBIDDEN => Err(HttpGitlabClientError::Forbidden),
+        code => Err(HttpGitlabClientError::Receive(format!(
+          "unexpected status code: {}",
+          code
+        ))),
+      }
     })
   }
 }
@@ -190,4 +386,33 @@ fn get_cursors(headers: &HeaderMap) -> Cursors<CompactString> {
     }
   }
   Cursors { first, next }
+}
+
+trait RequestBuilderExt {
+  fn gitlab_auth(self, gitlab_auth: Option<GitlabAuthView<'_>>) -> Self;
+}
+
+impl RequestBuilderExt for http::request::Builder {
+  fn gitlab_auth(self, gitlab_auth: Option<GitlabAuthView<'_>>) -> Self {
+    if let Some(auth) = gitlab_auth {
+      let (key, value) = auth.http_header();
+      self.header(key, value)
+    } else {
+      self
+    }
+  }
+}
+
+trait BoolExt {
+  fn as_str(&self) -> &'static str;
+}
+
+impl BoolExt for bool {
+  fn as_str(&self) -> &'static str {
+    if *self {
+      "true"
+    } else {
+      "false"
+    }
+  }
 }
