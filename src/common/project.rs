@@ -243,7 +243,7 @@ pub enum ProjectOrder {
 pub struct ProjectLinks {
   #[cfg_attr(feature = "serde", serde(rename = "self"))]
   pub this: CompactString,
-  pub issues: CompactString,
+  pub issues: Option<CompactString>,
   pub merge_requests: CompactString,
   pub repo_branches: CompactString,
   pub labels: CompactString,
