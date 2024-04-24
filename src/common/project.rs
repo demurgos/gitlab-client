@@ -1,3 +1,4 @@
+use crate::common::group::GroupId;
 use crate::common::namespace::Namespace;
 use crate::common::user::{User, UserId};
 use crate::common::{AccessLevel, Visibility};
@@ -183,7 +184,7 @@ pub struct Project {
   pub auto_devops_deploy_strategy: Option<CompactString>,
   pub ci_config_path: Option<CompactString>,
   pub public_jobs: Option<bool>,
-  pub shared_with_groups: Option<Vec<CompactString>>,
+  pub shared_with_groups: Option<Vec<ProjectGroupShare>>,
   pub only_allow_merge_if_pipeline_succeeds: Option<bool>,
   pub allow_merge_on_skipped_pipeline: Option<bool>,
   pub request_access_enabled: Option<bool>,
@@ -241,38 +242,47 @@ pub enum ProjectOrder {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct ProjectLinks {
   #[cfg_attr(feature = "serde", serde(rename = "self"))]
-  this: CompactString,
-  issues: CompactString,
-  merge_requests: CompactString,
-  repo_branches: CompactString,
-  labels: CompactString,
-  events: CompactString,
-  members: CompactString,
-  cluster_agents: CompactString,
+  pub this: CompactString,
+  pub issues: CompactString,
+  pub merge_requests: CompactString,
+  pub repo_branches: CompactString,
+  pub labels: CompactString,
+  pub events: CompactString,
+  pub members: CompactString,
+  pub cluster_agents: CompactString,
 }
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct ContainerExpirationPolicy {
-  cadence: CompactString,
-  enabled: bool,
-  keep_n: Option<u64>,
-  older_than: Option<CompactString>,
-  name_regex: Option<CompactString>,
-  name_regex_keep: Option<CompactString>,
-  next_run_at: DateTime<Utc>,
+  pub cadence: CompactString,
+  pub enabled: bool,
+  pub keep_n: Option<u64>,
+  pub older_than: Option<CompactString>,
+  pub name_regex: Option<CompactString>,
+  pub name_regex_keep: Option<CompactString>,
+  pub next_run_at: DateTime<Utc>,
 }
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct ProjectPermissions {
-  project_access: ProjectAccess,
-  group_access: Option<CompactString>,
+  pub project_access: ProjectAccess,
+  pub group_access: Option<CompactString>,
 }
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct ProjectAccess {
-  access_level: AccessLevel,
-  notification_level: u64,
+  pub access_level: AccessLevel,
+  pub notification_level: u64,
+}
+
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub struct ProjectGroupShare {
+  pub group_id: GroupId,
+  pub group_name: CompactString,
+  pub group_full_path: CompactString,
+  pub group_access_level: AccessLevel,
 }

@@ -1,6 +1,7 @@
 use compact_str::CompactString;
 use std::num::NonZeroU8;
 
+pub mod group;
 pub mod namespace;
 pub mod package;
 pub mod project;
