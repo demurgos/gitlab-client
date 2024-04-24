@@ -1,6 +1,12 @@
+[workspace]
+members = [
+    ".",
+    "./examples/*"
+]
+
 [package]
 name = "gitlab_client"
-version = "0.13.0"
+version = "0.14.0"
 authors = ["Charles Samborski <demurgos@demurgos.net>"]
 description = "GitLab client"
 documentation = "https://docs.rs/gitlab_client"
@@ -14,15 +20,24 @@ rust-version = "1.77.2"
 
 [dependencies]
 async-trait = "0.1.66"
+bytes = "1.6.0"
 chrono = "0.4.24"
+compact_str = "0.7.1"
+futures = "0.3.30"
+demurgos_headers = { version = "0.3.8", optional = true }
+http = { version = "1.1.0", optional = true }
+http-body = { version = "1.0.0", optional = true }
+http-body-util = { version = "0.1.1", optional = true }
 itoa = "1.0.6"
 reqwest = { version = "0.11.14", optional = true, default-features = false, features = ["json", "rustls-tls"] }
 serde = { version = "1.0.155", features = ["derive"], optional = true }
 serde_json = { version = "1.0.94", features = ["preserve_order"], optional = true }
 thiserror = "1.0.40"
-url = { version = "2.3.1", optional = true }
+tower-service = "0.3.2"
+url = { version = "2.3.1" }
 
 [features]
-default = ["http"]
-serde = ["dep:serde", "chrono/serde"]
-http = ["dep:reqwest", "dep:serde_json", "serde", "url"]
+default = []
+serde = ["dep:serde", "bytes/serde", "compact_str/serde", "chrono/serde", "url/serde"]
+http = ["dep:demurgos_headers", "dep:http", "dep:http-body", "dep:http-body-util", "dep:serde_json", "serde"]
+reqwest = ["dep:reqwest", "dep:serde_json", "serde"]

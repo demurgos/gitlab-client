@@ -17,7 +17,10 @@ cargo add gitlab_client
 
 ## Usage
 
-(todo)
+See examples directory.
+
+This library is organized as a set of [`tower_service`](https://docs.rs/tower-service) handlers.
+This allows to abstract the transport layer and focus on the GitLab API.
 
 # Documentation
 
