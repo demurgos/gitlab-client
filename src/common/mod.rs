@@ -32,7 +32,6 @@ pub enum Visibility {
 /// Access Level, also referred as Role
 ///
 /// See <https://docs.gitlab.com/ee/api/members.html#roles>
-#[cfg_attr(feature = "serde", derive(serde::Serialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum AccessLevel {
   NoAccess = 0,
@@ -93,6 +92,16 @@ impl AccessLevel {
       50 => Some(AccessLevel::Owner),
       _ => None,
     }
+  }
+}
+
+#[cfg(feature = "serde")]
+impl serde::Serialize for AccessLevel {
+  fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+  where
+    S: serde::Serializer,
+  {
+    serializer.serialize_str(self.to_lower())
   }
 }
 

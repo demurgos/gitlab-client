@@ -4,6 +4,7 @@
 - **[Fix]** Fix `ProjectPermissions::project_access` type (it can be `null`).
 - **[Fix]** Fix `Project::marked_for_deletion_at` and `Project::marked_for_deletion_on`.
 - **[Fix]** Fix `ProjectLinks` type (fields may be missing).
+- **[Fix]** Fix `AccessLevel` serialization.
 
 # 0.14.0 (2024-04-24)
 
