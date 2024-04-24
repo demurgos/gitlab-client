@@ -1,4 +1,4 @@
-# Next
+# 0.14.1 (2024-04-24)
 
 - **[Fix]** Fix `Project::shared_with_groups` type.
 - **[Fix]** Fix `ProjectPermissions::project_access` type (it can be `null`).

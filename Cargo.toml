@@ -6,7 +6,7 @@ members = [
 
 [package]
 name = "gitlab_client"
-version = "0.14.0"
+version = "0.14.1"
 authors = ["Charles Samborski <demurgos@demurgos.net>"]
 description = "GitLab client"
 documentation = "https://docs.rs/gitlab_client"
