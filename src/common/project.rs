@@ -2,7 +2,7 @@ use crate::common::group::GroupId;
 use crate::common::namespace::Namespace;
 use crate::common::user::{User, UserId};
 use crate::common::{AccessLevel, Visibility};
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, NaiveDate, Utc};
 use compact_str::CompactString;
 use url::Url;
 
@@ -203,8 +203,8 @@ pub struct Project {
   pub approvals_before_merge: Option<u64>,
   pub mirror: Option<bool>,
   pub external_authorization_classification_label: Option<CompactString>,
-  pub marked_for_deletion_at: Option<DateTime<Utc>>,
-  pub marked_for_deletion_on: Option<DateTime<Utc>>,
+  pub marked_for_deletion_at: Option<NaiveDate>,
+  pub marked_for_deletion_on: Option<NaiveDate>,
   pub requirements_enabled: Option<bool>,
   pub requirements_access_level: Option<CompactString>,
   pub security_and_compliance_enabled: Option<bool>,
