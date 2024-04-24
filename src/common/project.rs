@@ -244,12 +244,12 @@ pub struct ProjectLinks {
   #[cfg_attr(feature = "serde", serde(rename = "self"))]
   pub this: CompactString,
   pub issues: Option<CompactString>,
-  pub merge_requests: CompactString,
-  pub repo_branches: CompactString,
-  pub labels: CompactString,
-  pub events: CompactString,
-  pub members: CompactString,
-  pub cluster_agents: CompactString,
+  pub merge_requests: Option<CompactString>,
+  pub repo_branches: Option<CompactString>,
+  pub labels: Option<CompactString>,
+  pub events: Option<CompactString>,
+  pub members: Option<CompactString>,
+  pub cluster_agents: Option<CompactString>,
 }
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
