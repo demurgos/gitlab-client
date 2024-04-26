@@ -268,7 +268,7 @@ pub struct ContainerExpirationPolicy {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct ProjectPermissions {
   pub project_access: Option<ProjectAccess>,
-  pub group_access: Option<CompactString>,
+  pub group_access: Option<ProjectAccess>,
 }
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]

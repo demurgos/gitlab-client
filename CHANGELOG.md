@@ -1,3 +1,7 @@
+# Next
+
+- **[Fix]** Fix `ProjectPermissions::group_access` type (it is an object, not a string).
+
 # 0.14.1 (2024-04-24)
 
 - **[Fix]** Fix `Project::shared_with_groups` type.
