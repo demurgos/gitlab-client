@@ -1,4 +1,4 @@
-# Next
+# 0.14.2 (2024-04-26)
 
 - **[Fix]** Fix `ProjectPermissions::group_access` type (it is an object, not a string).
 
