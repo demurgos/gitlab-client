@@ -2,6 +2,7 @@ use std::ops::Deref;
 use url::Url;
 
 /// A very restricted version of frunk hlist to hold the context for gitlab client requests.
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Context<TyGitlabUrl> {
   gitlab_url: TyGitlabUrl,
 }
@@ -24,6 +25,7 @@ pub trait GetRef<T: ?Sized> {
   fn get_ref(&self) -> &T;
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct GitlabUrl(pub Url);
 
 impl Deref for GitlabUrl {

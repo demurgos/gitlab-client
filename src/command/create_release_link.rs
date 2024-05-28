@@ -1,13 +1,14 @@
 use crate::common::project::ProjectRef;
 use crate::common::release::ReleaseLinkType;
 use crate::GitlabAuth;
+use compact_str::CompactString;
 
 /// Create a project release link
 ///
 /// <https://docs.gitlab.com/ee/api/releases/links.html#create-a-release-link>
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct CreateReleaseLinkCommand<Cx, Str = String> {
+pub struct CreateReleaseLinkCommand<Cx, Str = CompactString> {
   pub context: Cx,
   pub auth: Option<GitlabAuth<Str>>,
   pub project: ProjectRef<Str>,

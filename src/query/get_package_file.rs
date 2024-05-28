@@ -1,12 +1,13 @@
 use crate::common::project::ProjectRef;
 use crate::GitlabAuth;
+use compact_str::CompactString;
 
 /// Get a generic package file
 ///
 /// <https://docs.gitlab.com/ee/user/packages/generic_packages/#download-package-file>
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct GetPackageFileQuery<Cx, Str = String> {
+pub struct GetPackageFileQuery<Cx, Str = CompactString> {
   pub context: Cx,
   pub auth: Option<GitlabAuth<Str>>,
   pub project: ProjectRef<Str>,

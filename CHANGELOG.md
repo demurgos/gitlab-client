@@ -1,3 +1,10 @@
+# Next
+
+- **[Breaking change]** Add `last` field to `Page`
+- **[Breaking change]** Use `CompactString` instead of `String` as the default type for `AsRef<str>` generic type
+  parameters
+- **[Feature]** Add `GetTreeRecordListQuery` support
+
 # 0.14.2 (2024-04-26)
 
 - **[Fix]** Fix `ProjectPermissions::group_access` type (it is an object, not a string).

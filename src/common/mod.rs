@@ -7,6 +7,7 @@ pub mod package;
 pub mod project;
 pub mod release;
 pub mod topic;
+pub mod tree;
 pub mod user;
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -144,5 +145,7 @@ pub struct Page<T> {
   pub first: Option<CompactString>,
   /// Cursor to the next page
   pub next: Option<CompactString>,
+  /// Cursor to the last page
+  pub last: Option<CompactString>,
   pub items: Vec<T>,
 }

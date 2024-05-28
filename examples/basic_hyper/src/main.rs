@@ -3,17 +3,20 @@ use gitlab_client::common::project::{ProjectRef, ProjectSlug};
 use gitlab_client::compact_str::CompactString;
 use gitlab_client::context::{Context, GitlabUrl};
 use gitlab_client::query::get_project::GetProjectQuery;
-use gitlab_client::query::get_project_list::GetProjectListQuery;
-use gitlab_client::query::get_project_list_page::GetProjectListPageQuery;
+use gitlab_client::query::get_tree_record_list::GetTreeRecordListQuery;
 use gitlab_client::tower_service::Service;
 use gitlab_client::url::Url;
-use gitlab_client::{GitlabAuth, GitlabClient};
+use gitlab_client::GitlabAuth;
 use hyper_tls::HttpsConnector;
-
-const TOKEN: &str = "...";
 
 #[tokio::main]
 async fn main() {
+  let authentication: Option<GitlabAuth> = if let Some(token) = std::env::var("GITLAB_PRIVATE_TOKEN").ok() {
+    Some(GitlabAuth::PrivateToken(token.parse().unwrap()))
+  } else {
+    None
+  };
+
   let connector = HttpsConnector::new();
   let client = hyper_util::client::legacy::Client::builder(hyper_util::rt::TokioExecutor::new()).build(connector);
   let mut client = HttpGitlabClient::new(client);
@@ -33,11 +36,22 @@ async fn main() {
   //     dbg!(&s.path_with_namespace);
   //   }
   // }
-  let mut query = GetProjectQuery::<_>::new(ProjectRef::Slug(ProjectSlug::new(CompactString::new(
-    "demurgos/eternaltwin",
-  ))))
-  .set_context(context);
-  query.auth = Some(GitlabAuth::PrivateToken(TOKEN.parse().unwrap()));
-  let res = client.call(&query).await.unwrap();
-  dbg!(res);
+  {
+    let mut query = GetProjectQuery::<_>::new(ProjectRef::Slug(ProjectSlug::new(CompactString::new(
+      "demurgos/eternaltwin",
+    ))))
+    .set_context(context.clone());
+    query.auth = authentication.clone();
+    let res = client.call(&query).await.unwrap();
+    eprintln!("successfully fetched project. create_at={:?}", res.created_at);
+  }
+  {
+    let mut query = GetTreeRecordListQuery::<_>::new(ProjectRef::Slug(ProjectSlug::new(CompactString::new(
+      "demurgos/eternaltwin",
+    ))))
+    .set_context(context);
+    query.auth = authentication.clone();
+    let res = client.call(&query).await.unwrap();
+    eprintln!("successfully fetched project. created_at={:?}", res.items.len());
+  }
 }

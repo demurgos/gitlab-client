@@ -3,6 +3,7 @@ use crate::command::create_release_link::CreateReleaseLinkCommand;
 use crate::command::publish_package_file::PublishPackageFileCommand;
 use crate::common::package::GenericPackageFile;
 use crate::common::release::{InputReleaseAssetsView, Release, ReleaseLink};
+use crate::common::tree::TreeRecord;
 use crate::common::Page;
 use crate::context::{GetRef, GitlabUrl};
 use crate::query::get_package_file::GetPackageFileQuery;
@@ -10,6 +11,7 @@ use crate::query::get_project::GetProjectQuery;
 use crate::query::get_project_list::GetProjectListQuery;
 use crate::query::get_project_list_page::GetProjectListPageQuery;
 use crate::query::get_project_release::GetProjectReleaseQuery;
+use crate::query::get_tree_record_list::GetTreeRecordListQuery;
 use crate::url_util::UrlExt;
 use crate::{GitlabAuth, GitlabAuthView, InputPackageStatus, Project};
 use bytes::Bytes;
@@ -85,7 +87,7 @@ where
     {
       let mut query = url.query_pairs_mut();
       if let Some(owned) = req.owned {
-        query.append_pair("owned", if owned { "true" } else { "false" });
+        query.append_pair("owned", owned.as_str());
       }
     }
 
@@ -111,6 +113,7 @@ where
       Ok(Page {
         first: cursors.first,
         next: cursors.next,
+        last: cursors.last,
         items: body,
       })
     })
@@ -163,6 +166,77 @@ where
       Ok(Page {
         first: cursors.first,
         next: cursors.next,
+        last: cursors.last,
+        items: body,
+      })
+    })
+  }
+}
+
+impl<'req, Cx, TyInner, TyBody> Service<&'req GetTreeRecordListQuery<Cx>> for HttpGitlabClient<TyInner>
+where
+  Cx: GetRef<GitlabUrl>,
+  TyInner: Service<Request<Full<Bytes>>, Response = Response<TyBody>> + 'req,
+  TyInner::Error: StdError,
+  TyInner::Future: Send,
+  TyBody: Body + Send,
+  TyBody::Data: Send,
+  TyBody::Error: StdError,
+{
+  type Response = Page<TreeRecord>;
+  type Error = HttpGitlabClientError;
+  type Future = BoxFuture<'req, Result<Self::Response, Self::Error>>;
+
+  fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
+    self
+      .inner
+      .poll_ready(cx)
+      .map_err(|e| HttpGitlabClientError::PollReady(format!("{e:?}")))
+  }
+
+  fn call(&mut self, req: &'req GetTreeRecordListQuery<Cx>) -> Self::Future {
+    let mut url = req.project.with_str(|project| {
+      req
+        .context
+        .get_ref()
+        .url_join(["projects", project, "repository", "tree"])
+    });
+    {
+      let mut query = url.query_pairs_mut();
+      if let Some(recursive) = req.recursive {
+        query.append_pair("recursive", recursive.as_str());
+      }
+      if let Some(git_ref) = req.r#ref.as_deref() {
+        query.append_pair("ref", git_ref);
+      }
+    }
+
+    let req = Request::builder()
+      .method(Method::GET)
+      .uri(url.as_str())
+      .gitlab_auth(req.auth.as_ref().map(GitlabAuth::as_view))
+      .body(Full::new(Bytes::new()))
+      .unwrap();
+
+    let res = self.inner.call(req);
+    Box::pin(async move {
+      let res: Response<TyBody> = res.await.map_err(|e| HttpGitlabClientError::Send(format!("{e:?}")))?;
+      let cursors = get_cursors(dbg!(res.headers()));
+      let body = res
+        .into_body()
+        .collect()
+        .await
+        .map_err(|e| HttpGitlabClientError::Receive(format!("{e:?}")))?;
+      let body: Bytes = body.to_bytes();
+
+      dbg!(std::str::from_utf8(&body));
+
+      let body: Vec<TreeRecord> =
+        serde_json::from_slice(&body).map_err(|e| HttpGitlabClientError::ResponseFormat(format!("{e:?}"), body))?;
+      Ok(Page {
+        first: cursors.first,
+        next: cursors.next,
+        last: cursors.last,
         items: body,
       })
     })
@@ -591,11 +665,13 @@ where
 struct Cursors<Str> {
   first: Option<Str>,
   next: Option<Str>,
+  last: Option<Str>,
 }
 
 fn get_cursors(headers: &HeaderMap) -> Cursors<CompactString> {
   let mut next: Option<CompactString> = None;
   let mut first: Option<CompactString> = None;
+  let mut last: Option<CompactString> = None;
   for link in headers.get_all(Link::name().as_str()) {
     let link = match link.to_str() {
       Ok(l) => l,
@@ -612,16 +688,19 @@ fn get_cursors(headers: &HeaderMap) -> Cursors<CompactString> {
       };
       for r in rel {
         // todo: detect when there are multiple different links for the same rel type
+        if *r == RelationType::NEXT {
+          next = Some(CompactString::new(value.link()));
+        }
         if *r == RelationType::FIRST {
           first = Some(CompactString::new(value.link()));
         }
-        if *r == RelationType::NEXT {
-          next = Some(CompactString::new(value.link()));
+        if *r == RelationType::LAST {
+          last = Some(CompactString::new(value.link()));
         }
       }
     }
   }
-  Cursors { first, next }
+  Cursors { first, next, last }
 }
 
 trait RequestBuilderExt {

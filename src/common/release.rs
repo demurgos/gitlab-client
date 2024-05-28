@@ -1,4 +1,5 @@
 use chrono::{DateTime, Utc};
+use compact_str::CompactString;
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -159,11 +160,11 @@ impl ReleaseLinkType {
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct InputReleaseAssets<Links = Vec<InputReleaseLink<String>>> {
+pub struct InputReleaseAssets<Links = Vec<InputReleaseLink<CompactString>>> {
   pub links: Links,
 }
 
-pub type InputReleaseAssetsView<'req, Str = String> = InputReleaseAssets<&'req [InputReleaseLink<Str>]>;
+pub type InputReleaseAssetsView<'req, Str = CompactString> = InputReleaseAssets<&'req [InputReleaseLink<Str>]>;
 
 impl<Links> InputReleaseAssets<Links> {
   pub fn as_view<Str>(&self) -> InputReleaseAssetsView<'_, Str>
@@ -178,7 +179,7 @@ impl<Links> InputReleaseAssets<Links> {
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct InputReleaseLink<Str = String> {
+pub struct InputReleaseLink<Str = CompactString> {
   pub name: Str,
   pub url: Str,
   pub direct_asset_path: Option<Str>,

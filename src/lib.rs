@@ -6,6 +6,7 @@ pub use ::reqwest;
 pub use ::serde;
 pub use ::tower_service;
 pub use ::url;
+use compact_str::CompactString;
 use std::future::Future;
 
 use crate::common::project::Project;
@@ -87,7 +88,7 @@ impl PackageStatus {
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub enum GitlabAuth<Token = String> {
+pub enum GitlabAuth<Token = CompactString> {
   PrivateToken(Token),
   JobToken(Token),
 }

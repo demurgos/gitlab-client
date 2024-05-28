@@ -2,13 +2,14 @@ use crate::common::project::ProjectRef;
 use crate::common::release::{InputReleaseAssets, InputReleaseAssetsView, InputReleaseLink};
 use crate::GitlabAuth;
 use chrono::{DateTime, Utc};
+use compact_str::CompactString;
 
 /// Create a project release
 ///
 /// <https://docs.gitlab.com/ee/api/releases/#create-a-release>
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct CreateReleaseCommand<Cx, Str = String, Assets = InputReleaseAssets> {
+pub struct CreateReleaseCommand<Cx, Str = CompactString, Assets = InputReleaseAssets> {
   pub context: Cx,
   pub auth: Option<GitlabAuth<Str>>,
   pub project: ProjectRef<Str>,
