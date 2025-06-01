@@ -1,4 +1,4 @@
-# Next
+# 0.15.0 (2025-06-01)
 
 - **[Breaking change]** Require `UserAgent` to be specified when using the `http` client.
 - **[Breaking change]** Add `last` field to `Page`
