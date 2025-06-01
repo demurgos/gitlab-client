@@ -6,7 +6,7 @@ use gitlab_client::query::get_project::GetProjectQuery;
 use gitlab_client::query::get_tree_record_list::GetTreeRecordListQuery;
 use gitlab_client::tower_service::Service;
 use gitlab_client::url::Url;
-use gitlab_client::GitlabAuth;
+use gitlab_client::{GitlabAuth, UserAgent};
 use hyper_tls::HttpsConnector;
 
 #[tokio::main]
@@ -20,7 +20,9 @@ async fn main() {
   let connector = HttpsConnector::new();
   let client = hyper_util::client::legacy::Client::builder(hyper_util::rt::TokioExecutor::new()).build(connector);
   let mut client = HttpGitlabClient::new(client);
-  let context = Context::new().set_gitlab_url(GitlabUrl(Url::parse("https://gitlab.com/").unwrap()));
+  let context = Context::new()
+    .set_gitlab_url(GitlabUrl(Url::parse("https://gitlab.com/").unwrap()))
+    .set_user_agent(UserAgent::from_static("gitlab_client_example/0.0.0"));
   // let mut query = GetProjectListQuery::<_>::new().set_context(context);
   // // query.auth = Some(GitlabAuth::PrivateToken("...".parse().unwrap()));
   // // query.owned = Some(true);

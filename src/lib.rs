@@ -1,5 +1,7 @@
 pub use ::chrono;
 pub use ::compact_str;
+#[cfg(feature = "http")]
+pub use ::demurgos_headers::UserAgent;
 #[cfg(feature = "reqwest")]
 pub use ::reqwest;
 #[cfg(feature = "serde")]
@@ -33,17 +35,19 @@ pub trait GitlabClient<Cx>: Send + Sync {
   ) -> impl Send + Future<Output = Result<Page<Project>, Self::Error<'_>>>;
 }
 
-impl<'a, S, Cx> GitlabClient<Cx> for &'a mut S
+impl<S, Cx> GitlabClient<Cx> for &'_ mut S
 where
   Self: Send + Sync,
   Cx: 'static + Send + Sync,
   for<'req> S: Service<&'req GetProjectListQuery<Cx>, Response = Page<Project>>,
   for<'req> <S as Service<&'req GetProjectListQuery<Cx>>>::Future: Send,
 {
-  type Error<'req> = <S as Service<&'req GetProjectListQuery<Cx>>>::Error
-    where Cx: 'req;
+  type Error<'req>
+    = <S as Service<&'req GetProjectListQuery<Cx>>>::Error
+  where
+    Cx: 'req;
 
-  async fn get_project_list<'r>(self, query: &'r GetProjectListQuery<Cx>) -> Result<Page<Project>, Self::Error<'r>> {
+  async fn get_project_list(self, query: &GetProjectListQuery<Cx>) -> Result<Page<Project>, Self::Error<'_>> {
     self.call(query).await
   }
 }

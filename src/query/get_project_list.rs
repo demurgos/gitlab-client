@@ -161,3 +161,9 @@ impl<Str: AsRef<str>> GetProjectListQuery<EmptyContext, Str> {
     }
   }
 }
+
+impl<Str: AsRef<str>> Default for GetProjectListQuery<EmptyContext, Str> {
+  fn default() -> Self {
+    Self::new()
+  }
+}

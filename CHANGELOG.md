@@ -1,5 +1,6 @@
 # Next
 
+- **[Breaking change]** Require `UserAgent` to be specified when using the `http` client.
 - **[Breaking change]** Add `last` field to `Page`
 - **[Breaking change]** Use `CompactString` instead of `String` as the default type for `AsRef<str>` generic type
   parameters

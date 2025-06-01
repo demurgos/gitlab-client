@@ -19,14 +19,13 @@ use chrono::{DateTime, Utc};
 use compact_str::CompactString;
 use core::task::{Context, Poll};
 use demurgos_headers::link::{Link, RelationType};
-use demurgos_headers::Header;
+use demurgos_headers::UserAgent;
 use futures::future::BoxFuture;
 use http::header::CONTENT_TYPE;
 use http::{HeaderMap, Method, Request, Response, StatusCode};
 use http_body::Body;
 use http_body_util::{BodyExt, Full};
 use std::error::Error as StdError;
-use std::str::FromStr;
 use tower_service::Service;
 
 pub struct HttpGitlabClient<TyInner> {
@@ -62,7 +61,7 @@ pub enum HttpGitlabClientError {
 
 impl<'req, Cx, TyInner, TyBody> Service<&'req GetProjectListQuery<Cx>> for HttpGitlabClient<TyInner>
 where
-  Cx: GetRef<GitlabUrl>,
+  Cx: GetRef<GitlabUrl> + GetRef<UserAgent>,
   TyInner: Service<Request<Full<Bytes>>, Response = Response<TyBody>> + 'req,
   TyInner::Error: StdError,
   TyInner::Future: Send,
@@ -82,7 +81,7 @@ where
   }
 
   fn call(&mut self, req: &'req GetProjectListQuery<Cx>) -> Self::Future {
-    let mut url = req.context.get_ref().url_join(["projects"]);
+    let mut url = GetRef::<GitlabUrl>::get_ref(&req.context).url_join(["projects"]);
 
     {
       let mut query = url.query_pairs_mut();
@@ -94,6 +93,7 @@ where
     let req = Request::builder()
       .method(Method::GET)
       .uri(url.as_str())
+      .user_agent(GetRef::<UserAgent>::get_ref(&req.context))
       .gitlab_auth(req.auth.as_ref().map(GitlabAuth::as_view))
       .body(Full::new(Bytes::new()))
       .unwrap();
@@ -229,7 +229,7 @@ where
         .map_err(|e| HttpGitlabClientError::Receive(format!("{e:?}")))?;
       let body: Bytes = body.to_bytes();
 
-      dbg!(std::str::from_utf8(&body));
+      // dbg!(std::str::from_utf8(&body));
 
       let body: Vec<TreeRecord> =
         serde_json::from_slice(&body).map_err(|e| HttpGitlabClientError::ResponseFormat(format!("{e:?}"), body))?;
@@ -245,7 +245,7 @@ where
 
 impl<'req, Cx, TyInner, TyBody> Service<&'req GetProjectQuery<Cx>> for HttpGitlabClient<TyInner>
 where
-  Cx: GetRef<GitlabUrl>,
+  Cx: GetRef<GitlabUrl> + GetRef<UserAgent>,
   TyInner: Service<Request<Full<Bytes>>, Response = Response<TyBody>> + 'req,
   TyInner::Error: StdError,
   TyInner::Future: Send,
@@ -265,7 +265,9 @@ where
   }
 
   fn call(&mut self, req: &'req GetProjectQuery<Cx>) -> Self::Future {
-    let mut url = req.id.with_str(|id| req.context.get_ref().url_join(["projects", id]));
+    let mut url = req
+      .id
+      .with_str(|id| GetRef::<GitlabUrl>::get_ref(&req.context).url_join(["projects", id]));
 
     {
       let mut query = url.query_pairs_mut();
@@ -283,6 +285,7 @@ where
     let req = Request::builder()
       .method(Method::GET)
       .uri(url.as_str())
+      .user_agent(GetRef::<UserAgent>::get_ref(&req.context))
       .gitlab_auth(req.auth.as_ref().map(GitlabAuth::as_view))
       .body(Full::new(Bytes::new()))
       .unwrap();
@@ -669,19 +672,16 @@ struct Cursors<Str> {
 }
 
 fn get_cursors(headers: &HeaderMap) -> Cursors<CompactString> {
+  use demurgos_headers::HeaderMapExt;
+
   let mut next: Option<CompactString> = None;
   let mut first: Option<CompactString> = None;
   let mut last: Option<CompactString> = None;
-  for link in headers.get_all(Link::name().as_str()) {
-    let link = match link.to_str() {
-      Ok(l) => l,
-      Err(_) => continue,
-    };
-    let link = match Link::from_str(link) {
-      Ok(l) => l,
-      Err(_) => continue,
-    };
-    for value in link.iter() {
+
+  let links: Option<Link> = headers.typed_get::<Link>();
+
+  if let Some(links) = links {
+    for value in links.values() {
       let rel = match value.rel() {
         Some(rel) => rel,
         None => continue,
@@ -700,14 +700,26 @@ fn get_cursors(headers: &HeaderMap) -> Cursors<CompactString> {
       }
     }
   }
+
   Cursors { first, next, last }
 }
 
 trait RequestBuilderExt {
+  fn user_agent(self, user_agent: &UserAgent) -> Self;
+
   fn gitlab_auth(self, gitlab_auth: Option<GitlabAuthView<'_>>) -> Self;
 }
 
 impl RequestBuilderExt for http::request::Builder {
+  fn user_agent(mut self, user_agent: &UserAgent) -> Self {
+    use demurgos_headers::HeaderMapExt;
+
+    if let Some(headers) = self.headers_mut() {
+      HeaderMapExt::typed_insert(headers, user_agent.clone());
+    }
+    self
+  }
+
   fn gitlab_auth(self, gitlab_auth: Option<GitlabAuthView<'_>>) -> Self {
     if let Some(auth) = gitlab_auth {
       let (key, value) = auth.http_header();
