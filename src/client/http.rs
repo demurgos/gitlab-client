@@ -11,6 +11,8 @@ use crate::query::get_project::GetProjectQuery;
 use crate::query::get_project_list::GetProjectListQuery;
 use crate::query::get_project_list_page::GetProjectListPageQuery;
 use crate::query::get_project_release::GetProjectReleaseQuery;
+use crate::query::get_project_release_list::GetProjectReleaseListQuery;
+use crate::query::get_project_release_list_page::GetProjectReleaseListPageQuery;
 use crate::query::get_tree_record_list::GetTreeRecordListQuery;
 use crate::url_util::UrlExt;
 use crate::{GitlabAuth, GitlabAuthView, InputPackageStatus, Project};
@@ -122,6 +124,7 @@ where
 
 impl<'req, Cx, TyInner, TyBody> Service<&'req GetProjectListPageQuery<Cx>> for HttpGitlabClient<TyInner>
 where
+  Cx: GetRef<UserAgent>,
   TyInner: Service<Request<Full<Bytes>>, Response = Response<TyBody>> + 'req,
   TyInner::Error: StdError,
   TyInner::Future: Send,
@@ -175,7 +178,7 @@ where
 
 impl<'req, Cx, TyInner, TyBody> Service<&'req GetTreeRecordListQuery<Cx>> for HttpGitlabClient<TyInner>
 where
-  Cx: GetRef<GitlabUrl>,
+  Cx: GetRef<GitlabUrl> + GetRef<UserAgent>,
   TyInner: Service<Request<Full<Bytes>>, Response = Response<TyBody>> + 'req,
   TyInner::Error: StdError,
   TyInner::Future: Send,
@@ -196,10 +199,7 @@ where
 
   fn call(&mut self, req: &'req GetTreeRecordListQuery<Cx>) -> Self::Future {
     let mut url = req.project.with_str(|project| {
-      req
-        .context
-        .get_ref()
-        .url_join(["projects", project, "repository", "tree"])
+      GetRef::<GitlabUrl>::get_ref(&req.context).url_join(["projects", project, "repository", "tree"])
     });
     {
       let mut query = url.query_pairs_mut();
@@ -221,15 +221,13 @@ where
     let res = self.inner.call(req);
     Box::pin(async move {
       let res: Response<TyBody> = res.await.map_err(|e| HttpGitlabClientError::Send(format!("{e:?}")))?;
-      let cursors = get_cursors(dbg!(res.headers()));
+      let cursors = get_cursors(res.headers());
       let body = res
         .into_body()
         .collect()
         .await
         .map_err(|e| HttpGitlabClientError::Receive(format!("{e:?}")))?;
       let body: Bytes = body.to_bytes();
-
-      // dbg!(std::str::from_utf8(&body));
 
       let body: Vec<TreeRecord> =
         serde_json::from_slice(&body).map_err(|e| HttpGitlabClientError::ResponseFormat(format!("{e:?}"), body))?;
@@ -309,7 +307,7 @@ where
 
 impl<'req, Cx, TyInner, TyBody> Service<&'req GetPackageFileQuery<Cx>> for HttpGitlabClient<TyInner>
 where
-  Cx: GetRef<GitlabUrl>,
+  Cx: GetRef<GitlabUrl> + GetRef<UserAgent>,
   TyInner: Service<Request<Full<Bytes>>, Response = Response<TyBody>> + 'req,
   TyInner::Error: StdError,
   TyInner::Future: Send,
@@ -330,7 +328,7 @@ where
 
   fn call(&mut self, req: &'req GetPackageFileQuery<Cx>) -> Self::Future {
     let url = req.project.with_str(|project| {
-      req.context.get_ref().url_join([
+      GetRef::<GitlabUrl>::get_ref(&req.context).url_join([
         "projects",
         project,
         "packages",
@@ -343,6 +341,7 @@ where
     let req = Request::builder()
       .method(Method::GET)
       .uri(url.as_str())
+      .user_agent(GetRef::<UserAgent>::get_ref(&req.context))
       .gitlab_auth(req.auth.as_ref().map(GitlabAuth::as_view))
       .body(Full::new(Bytes::new()))
       .unwrap();
@@ -361,9 +360,130 @@ where
   }
 }
 
+impl<'req, Cx, TyInner, TyBody> Service<&'req GetProjectReleaseListQuery<Cx>> for HttpGitlabClient<TyInner>
+where
+  Cx: GetRef<GitlabUrl> + GetRef<UserAgent>,
+  TyInner: Service<Request<Full<Bytes>>, Response = Response<TyBody>> + 'req,
+  TyInner::Error: StdError,
+  TyInner::Future: Send,
+  TyBody: Body + Send,
+  TyBody::Data: Send,
+  TyBody::Error: StdError,
+{
+  type Response = Page<Release>;
+  type Error = HttpGitlabClientError;
+  type Future = BoxFuture<'req, Result<Self::Response, Self::Error>>;
+
+  fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
+    self
+      .inner
+      .poll_ready(cx)
+      .map_err(|e| HttpGitlabClientError::PollReady(format!("{e:?}")))
+  }
+
+  fn call(&mut self, req: &'req GetProjectReleaseListQuery<Cx>) -> Self::Future {
+    let mut url = req
+      .project
+      .with_str(|project| GetRef::<GitlabUrl>::get_ref(&req.context).url_join(["projects", project, "releases"]));
+
+    {
+      let mut query = url.query_pairs_mut();
+      if let Some(pagination) = req.pagination {
+        query.append_pair("order_by", pagination.order_by.as_str());
+        query.append_pair("sort", pagination.sort.as_str());
+      }
+    }
+
+    let req = Request::builder()
+      .method(Method::GET)
+      .uri(url.as_str())
+      .user_agent(GetRef::<UserAgent>::get_ref(&req.context))
+      .gitlab_auth(req.auth.as_ref().map(GitlabAuth::as_view))
+      .body(Full::new(Bytes::new()))
+      .unwrap();
+    let res = self.inner.call(req);
+    Box::pin(async move {
+      let res: Response<TyBody> = res.await.map_err(|e| HttpGitlabClientError::Send(format!("{e:?}")))?;
+      let cursors = get_cursors(res.headers());
+      let body = res
+        .into_body()
+        .collect()
+        .await
+        .map_err(|e| HttpGitlabClientError::Receive(format!("{e:?}")))?;
+      let body: Bytes = body.to_bytes();
+
+      let body: Vec<Release> =
+        serde_json::from_slice(&body).map_err(|e| HttpGitlabClientError::ResponseFormat(format!("{e:?}"), body))?;
+      Ok(Page {
+        first: cursors.first,
+        next: cursors.next,
+        last: cursors.last,
+        items: body,
+      })
+    })
+  }
+}
+
+impl<'req, Cx, Str, TyInner, TyBody> Service<&'req GetProjectReleaseListPageQuery<Cx, Str>>
+  for HttpGitlabClient<TyInner>
+where
+  Cx: GetRef<UserAgent>,
+  Str: AsRef<str>,
+  TyInner: Service<Request<Full<Bytes>>, Response = Response<TyBody>> + 'req,
+  TyInner::Error: StdError,
+  TyInner::Future: Send,
+  TyBody: Body + Send,
+  TyBody::Data: Send,
+  TyBody::Error: StdError,
+{
+  type Response = Page<Release>;
+  type Error = HttpGitlabClientError;
+  type Future = BoxFuture<'req, Result<Self::Response, Self::Error>>;
+
+  fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
+    self
+      .inner
+      .poll_ready(cx)
+      .map_err(|e| HttpGitlabClientError::PollReady(format!("{e:?}")))
+  }
+
+  fn call(&mut self, req: &'req GetProjectReleaseListPageQuery<Cx, Str>) -> Self::Future {
+    let url: &str = req.cursor.as_ref();
+
+    let req = Request::builder()
+      .method(Method::GET)
+      .uri(url)
+      .user_agent(GetRef::<UserAgent>::get_ref(&req.context))
+      .gitlab_auth(req.auth.as_ref().map(GitlabAuth::as_view))
+      .body(Full::new(Bytes::new()))
+      .unwrap();
+
+    let res = self.inner.call(req);
+    Box::pin(async move {
+      let res: Response<TyBody> = res.await.map_err(|e| HttpGitlabClientError::Send(format!("{e:?}")))?;
+      let cursors = get_cursors(res.headers());
+      let body = res
+        .into_body()
+        .collect()
+        .await
+        .map_err(|e| HttpGitlabClientError::Receive(format!("{e:?}")))?;
+      let body: Bytes = body.to_bytes();
+
+      let body: Vec<Release> =
+        serde_json::from_slice(&body).map_err(|e| HttpGitlabClientError::ResponseFormat(format!("{e:?}"), body))?;
+      Ok(Page {
+        first: cursors.first,
+        next: cursors.next,
+        last: cursors.last,
+        items: body,
+      })
+    })
+  }
+}
+
 impl<'req, Cx, TyInner, TyBody> Service<&'req GetProjectReleaseQuery<Cx>> for HttpGitlabClient<TyInner>
 where
-  Cx: GetRef<GitlabUrl>,
+  Cx: GetRef<GitlabUrl> + GetRef<UserAgent>,
   TyInner: Service<Request<Full<Bytes>>, Response = Response<TyBody>> + 'req,
   TyInner::Error: StdError,
   TyInner::Future: Send,
@@ -384,14 +504,12 @@ where
 
   fn call(&mut self, req: &'req GetProjectReleaseQuery<Cx>) -> Self::Future {
     let url = req.project.with_str(|project| {
-      req
-        .context
-        .get_ref()
-        .url_join(["projects", project, "releases", &req.tag_name])
+      GetRef::<GitlabUrl>::get_ref(&req.context).url_join(["projects", project, "releases", &req.tag_name])
     });
     let req = Request::builder()
       .method(Method::GET)
       .uri(url.as_str())
+      .user_agent(GetRef::<UserAgent>::get_ref(&req.context))
       .gitlab_auth(req.auth.as_ref().map(GitlabAuth::as_view))
       .body(Full::new(Bytes::new()))
       .unwrap();
@@ -425,7 +543,7 @@ where
 
 impl<'req, Cx, TyInner, TyBody> Service<&'req PublishPackageFileCommand<Cx>> for HttpGitlabClient<TyInner>
 where
-  Cx: GetRef<GitlabUrl>,
+  Cx: GetRef<GitlabUrl> + GetRef<UserAgent>,
   TyInner: Service<Request<Full<Bytes>>, Response = Response<TyBody>> + 'req,
   TyInner::Error: StdError,
   TyInner::Future: Send,
@@ -446,7 +564,7 @@ where
 
   fn call(&mut self, req: &'req PublishPackageFileCommand<Cx>) -> Self::Future {
     let mut url = req.project.with_str(|project| {
-      req.context.get_ref().url_join([
+      GetRef::<GitlabUrl>::get_ref(&req.context).url_join([
         "projects",
         project,
         "packages",
@@ -472,6 +590,7 @@ where
     let req = Request::builder()
       .method(Method::GET)
       .uri(url.as_str())
+      .user_agent(GetRef::<UserAgent>::get_ref(&req.context))
       .gitlab_auth(req.auth.as_ref().map(GitlabAuth::as_view))
       .body(Full::new(Bytes::from(req.data.clone())))
       .unwrap();
@@ -503,7 +622,7 @@ where
 
 impl<'req, Cx, TyInner, TyBody> Service<&'req CreateReleaseCommand<Cx>> for HttpGitlabClient<TyInner>
 where
-  Cx: GetRef<GitlabUrl>,
+  Cx: GetRef<GitlabUrl> + GetRef<UserAgent>,
   TyInner: Service<Request<Full<Bytes>>, Response = Response<TyBody>> + 'req,
   TyInner::Error: StdError,
   TyInner::Future: Send,
@@ -536,7 +655,7 @@ where
 
     let url = req
       .project
-      .with_str(|project| req.context.get_ref().url_join(["projects", project, "releases"]));
+      .with_str(|project| GetRef::<GitlabUrl>::get_ref(&req.context).url_join(["projects", project, "releases"]));
 
     let body = serde_json::to_vec(&Body {
       name: req.name.as_deref(),
@@ -552,6 +671,7 @@ where
     let req = Request::builder()
       .method(Method::GET)
       .uri(url.as_str())
+      .user_agent(GetRef::<UserAgent>::get_ref(&req.context))
       .gitlab_auth(req.auth.as_ref().map(GitlabAuth::as_view))
       .header(CONTENT_TYPE, "application/json")
       .body(Full::new(Bytes::from(body)))
@@ -585,7 +705,7 @@ where
 
 impl<'req, Cx, TyInner, TyBody> Service<&'req CreateReleaseLinkCommand<Cx>> for HttpGitlabClient<TyInner>
 where
-  Cx: GetRef<GitlabUrl>,
+  Cx: GetRef<GitlabUrl> + GetRef<UserAgent>,
   TyInner: Service<Request<Full<Bytes>>, Response = Response<TyBody>> + 'req,
   TyInner::Error: StdError,
   TyInner::Future: Send,
@@ -614,7 +734,7 @@ where
     }
 
     let url = req.project.with_str(|project| {
-      req.context.get_ref().url_join([
+      GetRef::<GitlabUrl>::get_ref(&req.context).url_join([
         "projects",
         project,
         "releases",
@@ -635,6 +755,7 @@ where
     let req = Request::builder()
       .method(Method::GET)
       .uri(url.as_str())
+      .user_agent(GetRef::<UserAgent>::get_ref(&req.context))
       .gitlab_auth(req.auth.as_ref().map(GitlabAuth::as_view))
       .header(CONTENT_TYPE, "application/json")
       .body(Full::new(Bytes::from(body)))

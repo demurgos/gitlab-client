@@ -458,10 +458,12 @@ dependencies = [
 name = "gitlab_client_example_basic_hyper"
 version = "0.0.0"
 dependencies = [
+ "bytes",
  "gitlab_client",
+ "http-body 1.0.1",
+ "http-body-util",
  "hyper-tls",
  "hyper-util",
- "rustls",
  "tokio",
 ]
 

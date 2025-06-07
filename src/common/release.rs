@@ -94,7 +94,7 @@ pub struct ReleaseEvidence {
 pub struct ReleaseLinks {
   closed_issues_url: String,
   closed_merge_requests_url: String,
-  edit_url: String,
+  edit_url: Option<String>,
   merged_merge_requests_url: String,
   opened_issues_url: String,
   opened_merge_requests_url: String,
@@ -108,6 +108,15 @@ pub struct ReleaseLinks {
 pub enum ReleaseOrder {
   ReleasedAt,
   CreatedAt,
+}
+
+impl ReleaseOrder {
+  pub fn as_str(self) -> &'static str {
+    match self {
+      Self::ReleasedAt => "released_at",
+      Self::CreatedAt => "created_at",
+    }
+  }
 }
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -279,7 +288,7 @@ mod test {
       _links: ReleaseLinks {
         closed_issues_url: "https://gitlab.com/eternaltwin/eternaltwin/-/issues?release_tag=v0.12.5&scope=all&state=closed".to_string(),
         closed_merge_requests_url: "https://gitlab.com/eternaltwin/eternaltwin/-/merge_requests?release_tag=v0.12.5&scope=all&state=closed".to_string(),
-        edit_url: "https://gitlab.com/eternaltwin/eternaltwin/-/releases/v0.12.5/edit".to_string(),
+        edit_url: Some("https://gitlab.com/eternaltwin/eternaltwin/-/releases/v0.12.5/edit".to_string()),
         merged_merge_requests_url: "https://gitlab.com/eternaltwin/eternaltwin/-/merge_requests?release_tag=v0.12.5&scope=all&state=merged".to_string(),
         opened_issues_url: "https://gitlab.com/eternaltwin/eternaltwin/-/issues?release_tag=v0.12.5&scope=all&state=opened".to_string(),
         opened_merge_requests_url: "https://gitlab.com/eternaltwin/eternaltwin/-/merge_requests?release_tag=v0.12.5&scope=all&state=opened".to_string(),
@@ -304,5 +313,13 @@ mod test {
       link_type: ReleaseLinkType::Package,
     };
     assert_eq!(actual, expected);
+  }
+
+  #[cfg_attr(feature = "serde", test)]
+  #[allow(deprecated)]
+  fn read_xml2_release_list() {
+    let raw = include_str!("../../test-resources/get-project-release-list/libxml2/output.json");
+    let actual: Vec<Release> = serde_json::from_str(raw).unwrap();
+    assert_eq!(actual.len(), 20);
   }
 }

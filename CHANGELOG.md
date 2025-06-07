@@ -1,3 +1,7 @@
+# Next
+
+- **[Feature]** Add HTTP client support for `GetProjectReleaseListQuery` and `GetProjectReleaseListPageQuery`
+
 # 0.15.0 (2025-06-01)
 
 - **[Breaking change]** Require `UserAgent` to be specified when using the `http` client.

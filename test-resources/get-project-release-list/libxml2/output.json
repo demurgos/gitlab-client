@@ -1,0 +1,1548 @@
+[
+  {
+    "name": "libxml2 2.7.4",
+    "tag_name": "v2.7.4",
+    "description": "Release migrated from ftp.xmlsoft.org",
+    "created_at": "2022-02-13T16:27:00.094Z",
+    "released_at": "2009-09-10T16:23:22.000Z",
+    "upcoming_release": false,
+    "author": {
+      "id": 51,
+      "username": "ghost",
+      "name": "Ghost User",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/79783106d88279c6c8f94f1f4dec22bdb9f90a8d14c9d6c6628a11430e236cbf?s=80&d=identicon",
+      "web_url": "https://gitlab.gnome.org/ghost"
+    },
+    "commit": {
+      "id": "293416828e1467f877d9dd928f174dcf81b103bc",
+      "short_id": "29341682",
+      "created_at": "2009-09-10T18:23:39.000+02:00",
+      "parent_ids": [
+        "d87c5d1c4fcd21641c66d93392d1761c2350f93b"
+      ],
+      "title": "Release of libxml2-2.7.4",
+      "message": "Release of libxml2-2.7.4\n\n* configure.in: new version\n* libxml.spec.in: cleanup\n* xmlregexp.c: fix a comment\n* doc/apibuild.py: update\n* doc/*: regenerate everything\n",
+      "author_name": "Daniel Veillard",
+      "author_email": "veillard@redhat.com",
+      "authored_date": "2009-09-10T18:23:39.000+02:00",
+      "committer_name": "Daniel Veillard",
+      "committer_email": "veillard@redhat.com",
+      "committed_date": "2009-09-10T18:23:39.000+02:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/293416828e1467f877d9dd928f174dcf81b103bc"
+    },
+    "commit_path": "/GNOME/libxml2/-/commit/293416828e1467f877d9dd928f174dcf81b103bc",
+    "tag_path": "/GNOME/libxml2/-/tags/v2.7.4",
+    "assets": {
+      "count": 5,
+      "sources": [
+        {
+          "format": "zip",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.7.4/libxml2-v2.7.4.zip"
+        },
+        {
+          "format": "tar.gz",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.7.4/libxml2-v2.7.4.tar.gz"
+        },
+        {
+          "format": "tar.bz2",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.7.4/libxml2-v2.7.4.tar.bz2"
+        },
+        {
+          "format": "tar",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.7.4/libxml2-v2.7.4.tar"
+        }
+      ],
+      "links": [
+        {
+          "id": 372,
+          "name": "Official distribution tarball (tar.xz)",
+          "url": "https://download.gnome.org/sources/libxml2/2.7/libxml2-2.7.4.tar.xz",
+          "direct_asset_url": "https://download.gnome.org/sources/libxml2/2.7/libxml2-2.7.4.tar.xz",
+          "link_type": "package"
+        }
+      ]
+    },
+    "evidences": [],
+    "_links": {
+      "closed_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.7.4&scope=all&state=closed",
+      "closed_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.7.4&scope=all&state=closed",
+      "merged_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.7.4&scope=all&state=merged",
+      "opened_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.7.4&scope=all&state=opened",
+      "opened_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.7.4&scope=all&state=opened",
+      "self": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.7.4"
+    }
+  },
+  {
+    "name": "libxml2 2.7.5",
+    "tag_name": "v2.7.5",
+    "description": "Release migrated from ftp.xmlsoft.org",
+    "created_at": "2022-02-13T16:27:08.992Z",
+    "released_at": "2009-09-24T16:35:52.000Z",
+    "upcoming_release": false,
+    "author": {
+      "id": 51,
+      "username": "ghost",
+      "name": "Ghost User",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/79783106d88279c6c8f94f1f4dec22bdb9f90a8d14c9d6c6628a11430e236cbf?s=80&d=identicon",
+      "web_url": "https://gitlab.gnome.org/ghost"
+    },
+    "commit": {
+      "id": "7a896ce260d2447d405b4ae683bf9d643eef6cda",
+      "short_id": "7a896ce2",
+      "created_at": "2009-09-24T18:38:57.000+02:00",
+      "parent_ids": [
+        "2bdf87e3444090414e9ae7f90e4ef9085963eb39"
+      ],
+      "title": "Release of libxml2-2.7.5",
+      "message": "Release of libxml2-2.7.5\n\n* configure.in doc/xml.html: updated\n* doc/libxml2.xsa doc/xml.html python/setup.py: regenerated\n",
+      "author_name": "Daniel Veillard",
+      "author_email": "veillard@redhat.com",
+      "authored_date": "2009-09-24T18:38:57.000+02:00",
+      "committer_name": "Daniel Veillard",
+      "committer_email": "veillard@redhat.com",
+      "committed_date": "2009-09-24T18:38:57.000+02:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/7a896ce260d2447d405b4ae683bf9d643eef6cda"
+    },
+    "commit_path": "/GNOME/libxml2/-/commit/7a896ce260d2447d405b4ae683bf9d643eef6cda",
+    "tag_path": "/GNOME/libxml2/-/tags/v2.7.5",
+    "assets": {
+      "count": 5,
+      "sources": [
+        {
+          "format": "zip",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.7.5/libxml2-v2.7.5.zip"
+        },
+        {
+          "format": "tar.gz",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.7.5/libxml2-v2.7.5.tar.gz"
+        },
+        {
+          "format": "tar.bz2",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.7.5/libxml2-v2.7.5.tar.bz2"
+        },
+        {
+          "format": "tar",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.7.5/libxml2-v2.7.5.tar"
+        }
+      ],
+      "links": [
+        {
+          "id": 371,
+          "name": "Official distribution tarball (tar.xz)",
+          "url": "https://download.gnome.org/sources/libxml2/2.7/libxml2-2.7.5.tar.xz",
+          "direct_asset_url": "https://download.gnome.org/sources/libxml2/2.7/libxml2-2.7.5.tar.xz",
+          "link_type": "package"
+        }
+      ]
+    },
+    "evidences": [],
+    "_links": {
+      "closed_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.7.5&scope=all&state=closed",
+      "closed_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.7.5&scope=all&state=closed",
+      "merged_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.7.5&scope=all&state=merged",
+      "opened_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.7.5&scope=all&state=opened",
+      "opened_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.7.5&scope=all&state=opened",
+      "self": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.7.5"
+    }
+  },
+  {
+    "name": "libxml2 2.7.6",
+    "tag_name": "v2.7.6",
+    "description": "Release migrated from ftp.xmlsoft.org",
+    "created_at": "2022-02-13T16:27:17.974Z",
+    "released_at": "2009-10-06T16:42:34.000Z",
+    "upcoming_release": false,
+    "author": {
+      "id": 51,
+      "username": "ghost",
+      "name": "Ghost User",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/79783106d88279c6c8f94f1f4dec22bdb9f90a8d14c9d6c6628a11430e236cbf?s=80&d=identicon",
+      "web_url": "https://gitlab.gnome.org/ghost"
+    },
+    "commit": {
+      "id": "96bb740e2102f103777f0a630d29ba88996dd80c",
+      "short_id": "96bb740e",
+      "created_at": "2009-10-06T18:38:15.000+02:00",
+      "parent_ids": [
+        "858084fdec25a2617d626d0f65fac6c151136276"
+      ],
+      "title": "Release of libxml2-2.7.6",
+      "message": "Release of libxml2-2.7.6\n\n* configure.in doc/xml.html: updates for release\n* NEWS doc/libxml2.xsa doc/news.html python/setup.py: regenerated\n",
+      "author_name": "Daniel Veillard",
+      "author_email": "veillard@redhat.com",
+      "authored_date": "2009-10-06T18:38:15.000+02:00",
+      "committer_name": "Daniel Veillard",
+      "committer_email": "veillard@redhat.com",
+      "committed_date": "2009-10-06T18:38:15.000+02:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/96bb740e2102f103777f0a630d29ba88996dd80c"
+    },
+    "commit_path": "/GNOME/libxml2/-/commit/96bb740e2102f103777f0a630d29ba88996dd80c",
+    "tag_path": "/GNOME/libxml2/-/tags/v2.7.6",
+    "assets": {
+      "count": 5,
+      "sources": [
+        {
+          "format": "zip",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.7.6/libxml2-v2.7.6.zip"
+        },
+        {
+          "format": "tar.gz",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.7.6/libxml2-v2.7.6.tar.gz"
+        },
+        {
+          "format": "tar.bz2",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.7.6/libxml2-v2.7.6.tar.bz2"
+        },
+        {
+          "format": "tar",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.7.6/libxml2-v2.7.6.tar"
+        }
+      ],
+      "links": [
+        {
+          "id": 370,
+          "name": "Official distribution tarball (tar.xz)",
+          "url": "https://download.gnome.org/sources/libxml2/2.7/libxml2-2.7.6.tar.xz",
+          "direct_asset_url": "https://download.gnome.org/sources/libxml2/2.7/libxml2-2.7.6.tar.xz",
+          "link_type": "package"
+        }
+      ]
+    },
+    "evidences": [],
+    "_links": {
+      "closed_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.7.6&scope=all&state=closed",
+      "closed_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.7.6&scope=all&state=closed",
+      "merged_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.7.6&scope=all&state=merged",
+      "opened_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.7.6&scope=all&state=opened",
+      "opened_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.7.6&scope=all&state=opened",
+      "self": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.7.6"
+    }
+  },
+  {
+    "name": "libxml2 2.7.7",
+    "tag_name": "v2.7.7",
+    "description": "Release migrated from ftp.xmlsoft.org",
+    "created_at": "2022-02-13T16:27:26.915Z",
+    "released_at": "2010-03-15T15:22:57.000Z",
+    "upcoming_release": false,
+    "author": {
+      "id": 51,
+      "username": "ghost",
+      "name": "Ghost User",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/79783106d88279c6c8f94f1f4dec22bdb9f90a8d14c9d6c6628a11430e236cbf?s=80&d=identicon",
+      "web_url": "https://gitlab.gnome.org/ghost"
+    },
+    "commit": {
+      "id": "bb5055f3875c5a3c45f4daa8058e35aab8c5ac3f",
+      "short_id": "bb5055f3",
+      "created_at": "2010-03-15T16:21:00.000+01:00",
+      "parent_ids": [
+        "06c93b75095ddca6ba80e45dd381bb69cd04b9f6"
+      ],
+      "title": "Release of libxml2-2.7.7",
+      "message": "Release of libxml2-2.7.7\n\n* configure.in: bump version\n* doc//*: regenerated\n",
+      "author_name": "Daniel Veillard",
+      "author_email": "veillard@redhat.com",
+      "authored_date": "2010-03-15T16:21:00.000+01:00",
+      "committer_name": "Daniel Veillard",
+      "committer_email": "veillard@redhat.com",
+      "committed_date": "2010-03-15T16:21:00.000+01:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/bb5055f3875c5a3c45f4daa8058e35aab8c5ac3f"
+    },
+    "commit_path": "/GNOME/libxml2/-/commit/bb5055f3875c5a3c45f4daa8058e35aab8c5ac3f",
+    "tag_path": "/GNOME/libxml2/-/tags/v2.7.7",
+    "assets": {
+      "count": 5,
+      "sources": [
+        {
+          "format": "zip",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.7.7/libxml2-v2.7.7.zip"
+        },
+        {
+          "format": "tar.gz",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.7.7/libxml2-v2.7.7.tar.gz"
+        },
+        {
+          "format": "tar.bz2",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.7.7/libxml2-v2.7.7.tar.bz2"
+        },
+        {
+          "format": "tar",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.7.7/libxml2-v2.7.7.tar"
+        }
+      ],
+      "links": [
+        {
+          "id": 369,
+          "name": "Official distribution tarball (tar.xz)",
+          "url": "https://download.gnome.org/sources/libxml2/2.7/libxml2-2.7.7.tar.xz",
+          "direct_asset_url": "https://download.gnome.org/sources/libxml2/2.7/libxml2-2.7.7.tar.xz",
+          "link_type": "package"
+        }
+      ]
+    },
+    "evidences": [],
+    "_links": {
+      "closed_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.7.7&scope=all&state=closed",
+      "closed_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.7.7&scope=all&state=closed",
+      "merged_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.7.7&scope=all&state=merged",
+      "opened_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.7.7&scope=all&state=opened",
+      "opened_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.7.7&scope=all&state=opened",
+      "self": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.7.7"
+    }
+  },
+  {
+    "name": "libxml2 2.7.8",
+    "tag_name": "v2.7.8",
+    "description": "Release migrated from ftp.xmlsoft.org",
+    "created_at": "2022-02-13T16:27:35.879Z",
+    "released_at": "2010-11-04T17:30:41.000Z",
+    "upcoming_release": false,
+    "author": {
+      "id": 51,
+      "username": "ghost",
+      "name": "Ghost User",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/79783106d88279c6c8f94f1f4dec22bdb9f90a8d14c9d6c6628a11430e236cbf?s=80&d=identicon",
+      "web_url": "https://gitlab.gnome.org/ghost"
+    },
+    "commit": {
+      "id": "4c2e7c651f6c2f0d1a74f350cbda95f7df3e7017",
+      "short_id": "4c2e7c65",
+      "created_at": "2010-11-04T18:35:57.000+01:00",
+      "parent_ids": [
+        "82143f4e2af7da7e6706cda4f7f4efadcc062da0"
+      ],
+      "title": "Release of libxml2-2.7.8",
+      "message": "Release of libxml2-2.7.8\n",
+      "author_name": "Daniel Veillard",
+      "author_email": "veillard@redhat.com",
+      "authored_date": "2010-11-04T18:35:57.000+01:00",
+      "committer_name": "Daniel Veillard",
+      "committer_email": "veillard@redhat.com",
+      "committed_date": "2010-11-04T18:35:57.000+01:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/4c2e7c651f6c2f0d1a74f350cbda95f7df3e7017"
+    },
+    "commit_path": "/GNOME/libxml2/-/commit/4c2e7c651f6c2f0d1a74f350cbda95f7df3e7017",
+    "tag_path": "/GNOME/libxml2/-/tags/v2.7.8",
+    "assets": {
+      "count": 5,
+      "sources": [
+        {
+          "format": "zip",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.7.8/libxml2-v2.7.8.zip"
+        },
+        {
+          "format": "tar.gz",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.7.8/libxml2-v2.7.8.tar.gz"
+        },
+        {
+          "format": "tar.bz2",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.7.8/libxml2-v2.7.8.tar.bz2"
+        },
+        {
+          "format": "tar",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.7.8/libxml2-v2.7.8.tar"
+        }
+      ],
+      "links": [
+        {
+          "id": 368,
+          "name": "Official distribution tarball (tar.xz)",
+          "url": "https://download.gnome.org/sources/libxml2/2.7/libxml2-2.7.8.tar.xz",
+          "direct_asset_url": "https://download.gnome.org/sources/libxml2/2.7/libxml2-2.7.8.tar.xz",
+          "link_type": "package"
+        }
+      ]
+    },
+    "evidences": [],
+    "_links": {
+      "closed_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.7.8&scope=all&state=closed",
+      "closed_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.7.8&scope=all&state=closed",
+      "merged_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.7.8&scope=all&state=merged",
+      "opened_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.7.8&scope=all&state=opened",
+      "opened_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.7.8&scope=all&state=opened",
+      "self": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.7.8"
+    }
+  },
+  {
+    "name": "libxml2 2.8.0",
+    "tag_name": "v2.8.0",
+    "description": "Release migrated from ftp.xmlsoft.org",
+    "created_at": "2022-02-13T16:27:49.313Z",
+    "released_at": "2012-05-23T09:36:31.000Z",
+    "upcoming_release": false,
+    "author": {
+      "id": 51,
+      "username": "ghost",
+      "name": "Ghost User",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/79783106d88279c6c8f94f1f4dec22bdb9f90a8d14c9d6c6628a11430e236cbf?s=80&d=identicon",
+      "web_url": "https://gitlab.gnome.org/ghost"
+    },
+    "commit": {
+      "id": "c943f708f1853de4eb15e5a94cf0b35d108da87a",
+      "short_id": "c943f708",
+      "created_at": "2012-05-23T17:10:59.000+08:00",
+      "parent_ids": [
+        "22030ef8888579b9ae8d8a63367e31b201eef4b5"
+      ],
+      "title": "Release of libxml2-2.8.0",
+      "message": "Release of libxml2-2.8.0\n\n- Makefile.am: don't package .git\n- configure.in : update to new release\n- doc/xml.html: added the new release\n- doc/* testapi.c: regenerated\n",
+      "author_name": "Daniel Veillard",
+      "author_email": "veillard@redhat.com",
+      "authored_date": "2012-05-23T17:10:59.000+08:00",
+      "committer_name": "Daniel Veillard",
+      "committer_email": "veillard@redhat.com",
+      "committed_date": "2012-05-23T17:10:59.000+08:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/c943f708f1853de4eb15e5a94cf0b35d108da87a"
+    },
+    "commit_path": "/GNOME/libxml2/-/commit/c943f708f1853de4eb15e5a94cf0b35d108da87a",
+    "tag_path": "/GNOME/libxml2/-/tags/v2.8.0",
+    "assets": {
+      "count": 5,
+      "sources": [
+        {
+          "format": "zip",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.8.0/libxml2-v2.8.0.zip"
+        },
+        {
+          "format": "tar.gz",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.8.0/libxml2-v2.8.0.tar.gz"
+        },
+        {
+          "format": "tar.bz2",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.8.0/libxml2-v2.8.0.tar.bz2"
+        },
+        {
+          "format": "tar",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.8.0/libxml2-v2.8.0.tar"
+        }
+      ],
+      "links": [
+        {
+          "id": 367,
+          "name": "Official distribution tarball (tar.xz)",
+          "url": "https://download.gnome.org/sources/libxml2/2.8/libxml2-2.8.0.tar.xz",
+          "direct_asset_url": "https://download.gnome.org/sources/libxml2/2.8/libxml2-2.8.0.tar.xz",
+          "link_type": "package"
+        }
+      ]
+    },
+    "evidences": [],
+    "_links": {
+      "closed_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.8.0&scope=all&state=closed",
+      "closed_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.8.0&scope=all&state=closed",
+      "merged_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.8.0&scope=all&state=merged",
+      "opened_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.8.0&scope=all&state=opened",
+      "opened_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.8.0&scope=all&state=opened",
+      "self": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.8.0"
+    }
+  },
+  {
+    "name": "libxml2 2.9.0",
+    "tag_name": "v2.9.0",
+    "description": "Release migrated from ftp.xmlsoft.org",
+    "created_at": "2022-02-13T16:28:00.270Z",
+    "released_at": "2012-09-11T07:16:34.000Z",
+    "upcoming_release": false,
+    "author": {
+      "id": 51,
+      "username": "ghost",
+      "name": "Ghost User",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/79783106d88279c6c8f94f1f4dec22bdb9f90a8d14c9d6c6628a11430e236cbf?s=80&d=identicon",
+      "web_url": "https://gitlab.gnome.org/ghost"
+    },
+    "commit": {
+      "id": "38bbd3412d1c2a2016cf5a1a221ad4010216d28e",
+      "short_id": "38bbd341",
+      "created_at": "2012-09-11T15:00:08.000+08:00",
+      "parent_ids": [
+        "7651606f316c366a6d66358b72b3527a829fb7fe"
+      ],
+      "title": "Release of libxml2-2.9.0",
+      "message": "Release of libxml2-2.9.0\n\n* libxml.spec.in: update\n* doc/*: updated and regenerated\n* libxml2.syms testapi.c: regenerated\n",
+      "author_name": "Daniel Veillard",
+      "author_email": "veillard@redhat.com",
+      "authored_date": "2012-09-11T15:00:08.000+08:00",
+      "committer_name": "Daniel Veillard",
+      "committer_email": "veillard@redhat.com",
+      "committed_date": "2012-09-11T15:00:08.000+08:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/38bbd3412d1c2a2016cf5a1a221ad4010216d28e"
+    },
+    "commit_path": "/GNOME/libxml2/-/commit/38bbd3412d1c2a2016cf5a1a221ad4010216d28e",
+    "tag_path": "/GNOME/libxml2/-/tags/v2.9.0",
+    "assets": {
+      "count": 5,
+      "sources": [
+        {
+          "format": "zip",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.0/libxml2-v2.9.0.zip"
+        },
+        {
+          "format": "tar.gz",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.0/libxml2-v2.9.0.tar.gz"
+        },
+        {
+          "format": "tar.bz2",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.0/libxml2-v2.9.0.tar.bz2"
+        },
+        {
+          "format": "tar",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.0/libxml2-v2.9.0.tar"
+        }
+      ],
+      "links": [
+        {
+          "id": 366,
+          "name": "Official distribution tarball (tar.xz)",
+          "url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.0.tar.xz",
+          "direct_asset_url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.0.tar.xz",
+          "link_type": "package"
+        }
+      ]
+    },
+    "evidences": [],
+    "_links": {
+      "closed_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.0&scope=all&state=closed",
+      "closed_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.0&scope=all&state=closed",
+      "merged_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.0&scope=all&state=merged",
+      "opened_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.0&scope=all&state=opened",
+      "opened_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.0&scope=all&state=opened",
+      "self": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.9.0"
+    }
+  },
+  {
+    "name": "libxml2 2.9.1",
+    "tag_name": "v2.9.1",
+    "description": "Release migrated from ftp.xmlsoft.org",
+    "created_at": "2022-02-13T16:28:49.476Z",
+    "released_at": "2013-04-19T07:41:01.000Z",
+    "upcoming_release": false,
+    "author": {
+      "id": 51,
+      "username": "ghost",
+      "name": "Ghost User",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/79783106d88279c6c8f94f1f4dec22bdb9f90a8d14c9d6c6628a11430e236cbf?s=80&d=identicon",
+      "web_url": "https://gitlab.gnome.org/ghost"
+    },
+    "commit": {
+      "id": "f4e5a6994ed230dfa3fb5b5c3fd94c4993ef1ba7",
+      "short_id": "f4e5a699",
+      "created_at": "2013-04-19T15:36:36.000+08:00",
+      "parent_ids": [
+        "c0a8dd14f81198947121bb64877f1e6c021bad84"
+      ],
+      "title": "Release of libxml2-2.9.1",
+      "message": "Release of libxml2-2.9.1\n\n* configure.in: bumped version\n* doc/*: updated the symbols file and regenerated\n",
+      "author_name": "Daniel Veillard",
+      "author_email": "veillard@redhat.com",
+      "authored_date": "2013-04-19T15:36:36.000+08:00",
+      "committer_name": "Daniel Veillard",
+      "committer_email": "veillard@redhat.com",
+      "committed_date": "2013-04-19T15:36:36.000+08:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/f4e5a6994ed230dfa3fb5b5c3fd94c4993ef1ba7"
+    },
+    "commit_path": "/GNOME/libxml2/-/commit/f4e5a6994ed230dfa3fb5b5c3fd94c4993ef1ba7",
+    "tag_path": "/GNOME/libxml2/-/tags/v2.9.1",
+    "assets": {
+      "count": 5,
+      "sources": [
+        {
+          "format": "zip",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.1/libxml2-v2.9.1.zip"
+        },
+        {
+          "format": "tar.gz",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.1/libxml2-v2.9.1.tar.gz"
+        },
+        {
+          "format": "tar.bz2",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.1/libxml2-v2.9.1.tar.bz2"
+        },
+        {
+          "format": "tar",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.1/libxml2-v2.9.1.tar"
+        }
+      ],
+      "links": [
+        {
+          "id": 365,
+          "name": "Official distribution tarball (tar.xz)",
+          "url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.1.tar.xz",
+          "direct_asset_url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.1.tar.xz",
+          "link_type": "package"
+        }
+      ]
+    },
+    "evidences": [],
+    "_links": {
+      "closed_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.1&scope=all&state=closed",
+      "closed_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.1&scope=all&state=closed",
+      "merged_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.1&scope=all&state=merged",
+      "opened_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.1&scope=all&state=opened",
+      "opened_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.1&scope=all&state=opened",
+      "self": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.9.1"
+    }
+  },
+  {
+    "name": "libxml2 2.9.2",
+    "tag_name": "v2.9.2",
+    "description": "Release migrated from ftp.xmlsoft.org",
+    "created_at": "2022-02-13T16:28:59.925Z",
+    "released_at": "2014-10-16T08:02:16.000Z",
+    "upcoming_release": false,
+    "author": {
+      "id": 51,
+      "username": "ghost",
+      "name": "Ghost User",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/79783106d88279c6c8f94f1f4dec22bdb9f90a8d14c9d6c6628a11430e236cbf?s=80&d=identicon",
+      "web_url": "https://gitlab.gnome.org/ghost"
+    },
+    "commit": {
+      "id": "726f67e2f140f8d936dfe993bf9ded3180d750d2",
+      "short_id": "726f67e2",
+      "created_at": "2014-10-16T15:40:16.000+08:00",
+      "parent_ids": [
+        "2fcdb424090239336ec5aa8b06ed072cfb6cb817"
+      ],
+      "title": "Release of libxml2-2.9.2",
+      "message": "Release of libxml2-2.9.2\n",
+      "author_name": "Daniel Veillard",
+      "author_email": "veillard@redhat.com",
+      "authored_date": "2014-10-16T15:40:16.000+08:00",
+      "committer_name": "Daniel Veillard",
+      "committer_email": "veillard@redhat.com",
+      "committed_date": "2014-10-16T15:40:16.000+08:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/726f67e2f140f8d936dfe993bf9ded3180d750d2"
+    },
+    "commit_path": "/GNOME/libxml2/-/commit/726f67e2f140f8d936dfe993bf9ded3180d750d2",
+    "tag_path": "/GNOME/libxml2/-/tags/v2.9.2",
+    "assets": {
+      "count": 5,
+      "sources": [
+        {
+          "format": "zip",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.2/libxml2-v2.9.2.zip"
+        },
+        {
+          "format": "tar.gz",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.2/libxml2-v2.9.2.tar.gz"
+        },
+        {
+          "format": "tar.bz2",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.2/libxml2-v2.9.2.tar.bz2"
+        },
+        {
+          "format": "tar",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.2/libxml2-v2.9.2.tar"
+        }
+      ],
+      "links": [
+        {
+          "id": 364,
+          "name": "Official distribution tarball (tar.xz)",
+          "url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.2.tar.xz",
+          "direct_asset_url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.2.tar.xz",
+          "link_type": "package"
+        }
+      ]
+    },
+    "evidences": [],
+    "_links": {
+      "closed_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.2&scope=all&state=closed",
+      "closed_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.2&scope=all&state=closed",
+      "merged_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.2&scope=all&state=merged",
+      "opened_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.2&scope=all&state=opened",
+      "opened_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.2&scope=all&state=opened",
+      "self": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.9.2"
+    }
+  },
+  {
+    "name": "libxml2 2.9.3",
+    "tag_name": "v2.9.3",
+    "description": "Release migrated from ftp.xmlsoft.org",
+    "created_at": "2022-02-13T16:29:10.434Z",
+    "released_at": "2015-11-20T09:49:45.000Z",
+    "upcoming_release": false,
+    "author": {
+      "id": 51,
+      "username": "ghost",
+      "name": "Ghost User",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/79783106d88279c6c8f94f1f4dec22bdb9f90a8d14c9d6c6628a11430e236cbf?s=80&d=identicon",
+      "web_url": "https://gitlab.gnome.org/ghost"
+    },
+    "commit": {
+      "id": "6657afe83a38278f124ace71dc85f60420beb2d5",
+      "short_id": "6657afe8",
+      "created_at": "2015-11-20T17:55:11.000+08:00",
+      "parent_ids": [
+        "8fb4a770075628d6441fb17a1e435100e2f3b1a2"
+      ],
+      "title": "Release of libxml2-2.9.3",
+      "message": "Release of libxml2-2.9.3\n\n* configure.ac: updated\n* doc/*: regenerated\n",
+      "author_name": "Daniel Veillard",
+      "author_email": "veillard@redhat.com",
+      "authored_date": "2015-11-20T17:55:11.000+08:00",
+      "committer_name": "Daniel Veillard",
+      "committer_email": "veillard@redhat.com",
+      "committed_date": "2015-11-20T17:55:11.000+08:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/6657afe83a38278f124ace71dc85f60420beb2d5"
+    },
+    "commit_path": "/GNOME/libxml2/-/commit/6657afe83a38278f124ace71dc85f60420beb2d5",
+    "tag_path": "/GNOME/libxml2/-/tags/v2.9.3",
+    "assets": {
+      "count": 5,
+      "sources": [
+        {
+          "format": "zip",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.3/libxml2-v2.9.3.zip"
+        },
+        {
+          "format": "tar.gz",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.3/libxml2-v2.9.3.tar.gz"
+        },
+        {
+          "format": "tar.bz2",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.3/libxml2-v2.9.3.tar.bz2"
+        },
+        {
+          "format": "tar",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.3/libxml2-v2.9.3.tar"
+        }
+      ],
+      "links": [
+        {
+          "id": 363,
+          "name": "Official distribution tarball (tar.xz)",
+          "url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.3.tar.xz",
+          "direct_asset_url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.3.tar.xz",
+          "link_type": "package"
+        }
+      ]
+    },
+    "evidences": [],
+    "_links": {
+      "closed_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.3&scope=all&state=closed",
+      "closed_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.3&scope=all&state=closed",
+      "merged_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.3&scope=all&state=merged",
+      "opened_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.3&scope=all&state=opened",
+      "opened_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.3&scope=all&state=opened",
+      "self": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.9.3"
+    }
+  },
+  {
+    "name": "libxml2 2.9.4",
+    "tag_name": "v2.9.4",
+    "description": "Release migrated from ftp.xmlsoft.org",
+    "created_at": "2022-02-13T16:29:26.517Z",
+    "released_at": "2016-05-23T08:01:21.000Z",
+    "upcoming_release": false,
+    "author": {
+      "id": 51,
+      "username": "ghost",
+      "name": "Ghost User",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/79783106d88279c6c8f94f1f4dec22bdb9f90a8d14c9d6c6628a11430e236cbf?s=80&d=identicon",
+      "web_url": "https://gitlab.gnome.org/ghost"
+    },
+    "commit": {
+      "id": "bdec2183f34b37ee89ae1d330c6ad2bb4d76605f",
+      "short_id": "bdec2183",
+      "created_at": "2016-05-23T16:04:52.000+08:00",
+      "parent_ids": [
+        "502f6a6d08b08c04b3ddfb1cd21b2f699c1b7f5b"
+      ],
+      "title": "Release of libxml2-2.9.4",
+      "message": "Release of libxml2-2.9.4\n\n* doc/xml.html libxml.spec.in: updated for the release\n* doc/*: regenerated but no API additions\n",
+      "author_name": "Daniel Veillard",
+      "author_email": "veillard@redhat.com",
+      "authored_date": "2016-05-23T16:04:52.000+08:00",
+      "committer_name": "Daniel Veillard",
+      "committer_email": "veillard@redhat.com",
+      "committed_date": "2016-05-23T16:04:52.000+08:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/bdec2183f34b37ee89ae1d330c6ad2bb4d76605f"
+    },
+    "commit_path": "/GNOME/libxml2/-/commit/bdec2183f34b37ee89ae1d330c6ad2bb4d76605f",
+    "tag_path": "/GNOME/libxml2/-/tags/v2.9.4",
+    "assets": {
+      "count": 5,
+      "sources": [
+        {
+          "format": "zip",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.4/libxml2-v2.9.4.zip"
+        },
+        {
+          "format": "tar.gz",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.4/libxml2-v2.9.4.tar.gz"
+        },
+        {
+          "format": "tar.bz2",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.4/libxml2-v2.9.4.tar.bz2"
+        },
+        {
+          "format": "tar",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.4/libxml2-v2.9.4.tar"
+        }
+      ],
+      "links": [
+        {
+          "id": 362,
+          "name": "Official distribution tarball (tar.xz)",
+          "url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.4.tar.xz",
+          "direct_asset_url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.4.tar.xz",
+          "link_type": "package"
+        }
+      ]
+    },
+    "evidences": [],
+    "_links": {
+      "closed_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.4&scope=all&state=closed",
+      "closed_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.4&scope=all&state=closed",
+      "merged_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.4&scope=all&state=merged",
+      "opened_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.4&scope=all&state=opened",
+      "opened_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.4&scope=all&state=opened",
+      "self": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.9.4"
+    }
+  },
+  {
+    "name": "libxml2 2.9.5",
+    "tag_name": "v2.9.5",
+    "description": "Release migrated from ftp.xmlsoft.org",
+    "created_at": "2022-02-13T16:29:44.747Z",
+    "released_at": "2017-09-04T13:01:04.000Z",
+    "upcoming_release": false,
+    "author": {
+      "id": 51,
+      "username": "ghost",
+      "name": "Ghost User",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/79783106d88279c6c8f94f1f4dec22bdb9f90a8d14c9d6c6628a11430e236cbf?s=80&d=identicon",
+      "web_url": "https://gitlab.gnome.org/ghost"
+    },
+    "commit": {
+      "id": "2960178fe8f9fe690b7f8c1c49093ff54bb56934",
+      "short_id": "2960178f",
+      "created_at": "2017-09-04T15:38:47.000+02:00",
+      "parent_ids": [
+        "69936b129fedcda3514fee1a0d6b39521923cbac"
+      ],
+      "title": "Release of libxml2-2.9.5",
+      "message": "Release of libxml2-2.9.5\n\n* configure.ac, doc/xslt.html: updated for the release\n* doc/*, python/setup.py, testapi.c: regenerated\n",
+      "author_name": "Daniel Veillard",
+      "author_email": "veillard@redhat.com",
+      "authored_date": "2017-09-04T15:38:47.000+02:00",
+      "committer_name": "Daniel Veillard",
+      "committer_email": "veillard@redhat.com",
+      "committed_date": "2017-09-04T15:38:47.000+02:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/2960178fe8f9fe690b7f8c1c49093ff54bb56934"
+    },
+    "commit_path": "/GNOME/libxml2/-/commit/2960178fe8f9fe690b7f8c1c49093ff54bb56934",
+    "tag_path": "/GNOME/libxml2/-/tags/v2.9.5",
+    "assets": {
+      "count": 5,
+      "sources": [
+        {
+          "format": "zip",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.5/libxml2-v2.9.5.zip"
+        },
+        {
+          "format": "tar.gz",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.5/libxml2-v2.9.5.tar.gz"
+        },
+        {
+          "format": "tar.bz2",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.5/libxml2-v2.9.5.tar.bz2"
+        },
+        {
+          "format": "tar",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.5/libxml2-v2.9.5.tar"
+        }
+      ],
+      "links": [
+        {
+          "id": 361,
+          "name": "Official distribution tarball (tar.xz)",
+          "url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.5.tar.xz",
+          "direct_asset_url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.5.tar.xz",
+          "link_type": "package"
+        }
+      ]
+    },
+    "evidences": [],
+    "_links": {
+      "closed_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.5&scope=all&state=closed",
+      "closed_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.5&scope=all&state=closed",
+      "merged_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.5&scope=all&state=merged",
+      "opened_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.5&scope=all&state=opened",
+      "opened_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.5&scope=all&state=opened",
+      "self": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.9.5"
+    }
+  },
+  {
+    "name": "libxml2 2.9.6",
+    "tag_name": "v2.9.6",
+    "description": "Release migrated from ftp.xmlsoft.org",
+    "created_at": "2022-02-13T16:30:03.085Z",
+    "released_at": "2017-10-06T07:01:42.000Z",
+    "upcoming_release": false,
+    "author": {
+      "id": 51,
+      "username": "ghost",
+      "name": "Ghost User",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/79783106d88279c6c8f94f1f4dec22bdb9f90a8d14c9d6c6628a11430e236cbf?s=80&d=identicon",
+      "web_url": "https://gitlab.gnome.org/ghost"
+    },
+    "commit": {
+      "id": "4b4d3d85165e6bfca23893cf98834c4bc747a96c",
+      "short_id": "4b4d3d85",
+      "created_at": "2017-10-06T09:00:53.000+02:00",
+      "parent_ids": [
+        "0f3b843b3534784ef57a4f9b874238aa1fda5a73"
+      ],
+      "title": "Release of libxml2-2.9.6",
+      "message": "Release of libxml2-2.9.6\n* configure.ac doc/xml.html doc/news.html: updated for release\n",
+      "author_name": "Daniel Veillard",
+      "author_email": "veillard@redhat.com",
+      "authored_date": "2017-10-06T09:00:53.000+02:00",
+      "committer_name": "Daniel Veillard",
+      "committer_email": "veillard@redhat.com",
+      "committed_date": "2017-10-06T09:00:53.000+02:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/4b4d3d85165e6bfca23893cf98834c4bc747a96c"
+    },
+    "commit_path": "/GNOME/libxml2/-/commit/4b4d3d85165e6bfca23893cf98834c4bc747a96c",
+    "tag_path": "/GNOME/libxml2/-/tags/v2.9.6",
+    "assets": {
+      "count": 5,
+      "sources": [
+        {
+          "format": "zip",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.6/libxml2-v2.9.6.zip"
+        },
+        {
+          "format": "tar.gz",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.6/libxml2-v2.9.6.tar.gz"
+        },
+        {
+          "format": "tar.bz2",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.6/libxml2-v2.9.6.tar.bz2"
+        },
+        {
+          "format": "tar",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.6/libxml2-v2.9.6.tar"
+        }
+      ],
+      "links": [
+        {
+          "id": 360,
+          "name": "Official distribution tarball (tar.xz)",
+          "url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.6.tar.xz",
+          "direct_asset_url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.6.tar.xz",
+          "link_type": "package"
+        }
+      ]
+    },
+    "evidences": [],
+    "_links": {
+      "closed_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.6&scope=all&state=closed",
+      "closed_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.6&scope=all&state=closed",
+      "merged_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.6&scope=all&state=merged",
+      "opened_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.6&scope=all&state=opened",
+      "opened_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.6&scope=all&state=opened",
+      "self": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.9.6"
+    }
+  },
+  {
+    "name": "libxml2 2.9.7",
+    "tag_name": "v2.9.7",
+    "description": "Release migrated from ftp.xmlsoft.org",
+    "created_at": "2022-02-13T16:30:13.609Z",
+    "released_at": "2017-11-02T20:18:02.000Z",
+    "upcoming_release": false,
+    "author": {
+      "id": 51,
+      "username": "ghost",
+      "name": "Ghost User",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/79783106d88279c6c8f94f1f4dec22bdb9f90a8d14c9d6c6628a11430e236cbf?s=80&d=identicon",
+      "web_url": "https://gitlab.gnome.org/ghost"
+    },
+    "commit": {
+      "id": "bc5a5d658320c37e206fe4e7b525b4a24466d0c6",
+      "short_id": "bc5a5d65",
+      "created_at": "2017-11-02T21:26:55.000+01:00",
+      "parent_ids": [
+        "09f51ecbc5b8ea418bacca4ad43a4d2d1e3ccdfb"
+      ],
+      "title": "Release of libxnl2-2.9.7",
+      "message": "Release of libxnl2-2.9.7\n\n* configure.ac doc/news.html : update for release\n* doc/news.html doc/xmlcatalog.1 doc/xmlcatalog_man.html: regenerated\n",
+      "author_name": "Daniel Veillard",
+      "author_email": "veillard@redhat.com",
+      "authored_date": "2017-11-02T21:26:55.000+01:00",
+      "committer_name": "Daniel Veillard",
+      "committer_email": "veillard@redhat.com",
+      "committed_date": "2017-11-02T21:26:55.000+01:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/bc5a5d658320c37e206fe4e7b525b4a24466d0c6"
+    },
+    "commit_path": "/GNOME/libxml2/-/commit/bc5a5d658320c37e206fe4e7b525b4a24466d0c6",
+    "tag_path": "/GNOME/libxml2/-/tags/v2.9.7",
+    "assets": {
+      "count": 5,
+      "sources": [
+        {
+          "format": "zip",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.7/libxml2-v2.9.7.zip"
+        },
+        {
+          "format": "tar.gz",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.7/libxml2-v2.9.7.tar.gz"
+        },
+        {
+          "format": "tar.bz2",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.7/libxml2-v2.9.7.tar.bz2"
+        },
+        {
+          "format": "tar",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.7/libxml2-v2.9.7.tar"
+        }
+      ],
+      "links": [
+        {
+          "id": 359,
+          "name": "Official distribution tarball (tar.xz)",
+          "url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.7.tar.xz",
+          "direct_asset_url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.7.tar.xz",
+          "link_type": "package"
+        }
+      ]
+    },
+    "evidences": [],
+    "_links": {
+      "closed_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.7&scope=all&state=closed",
+      "closed_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.7&scope=all&state=closed",
+      "merged_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.7&scope=all&state=merged",
+      "opened_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.7&scope=all&state=opened",
+      "opened_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.7&scope=all&state=opened",
+      "self": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.9.7"
+    }
+  },
+  {
+    "name": "libxml2 2.9.8",
+    "tag_name": "v2.9.8",
+    "description": "Release migrated from ftp.xmlsoft.org",
+    "created_at": "2022-02-13T16:30:24.118Z",
+    "released_at": "2018-03-05T15:54:53.000Z",
+    "upcoming_release": false,
+    "author": {
+      "id": 51,
+      "username": "ghost",
+      "name": "Ghost User",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/79783106d88279c6c8f94f1f4dec22bdb9f90a8d14c9d6c6628a11430e236cbf?s=80&d=identicon",
+      "web_url": "https://gitlab.gnome.org/ghost"
+    },
+    "commit": {
+      "id": "18890f471c420411aa3c989e104d090966ec9dbf",
+      "short_id": "18890f47",
+      "created_at": "2018-03-05T17:09:43.000+01:00",
+      "parent_ids": [
+        "d910e99c322a0895955038c700471e9b1fd91fa6"
+      ],
+      "title": "Release of libxml2-2.9.8",
+      "message": "Release of libxml2-2.9.8\n\n* configure.ac doc/* libxml2.syms testapi.c: updated for the new release\n",
+      "author_name": "Daniel Veillard",
+      "author_email": "veillard@redhat.com",
+      "authored_date": "2018-03-05T17:09:43.000+01:00",
+      "committer_name": "Daniel Veillard",
+      "committer_email": "veillard@redhat.com",
+      "committed_date": "2018-03-05T17:09:43.000+01:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/18890f471c420411aa3c989e104d090966ec9dbf"
+    },
+    "commit_path": "/GNOME/libxml2/-/commit/18890f471c420411aa3c989e104d090966ec9dbf",
+    "tag_path": "/GNOME/libxml2/-/tags/v2.9.8",
+    "assets": {
+      "count": 5,
+      "sources": [
+        {
+          "format": "zip",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.8/libxml2-v2.9.8.zip"
+        },
+        {
+          "format": "tar.gz",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.8/libxml2-v2.9.8.tar.gz"
+        },
+        {
+          "format": "tar.bz2",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.8/libxml2-v2.9.8.tar.bz2"
+        },
+        {
+          "format": "tar",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.8/libxml2-v2.9.8.tar"
+        }
+      ],
+      "links": [
+        {
+          "id": 358,
+          "name": "Official distribution tarball (tar.xz)",
+          "url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.8.tar.xz",
+          "direct_asset_url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.8.tar.xz",
+          "link_type": "package"
+        }
+      ]
+    },
+    "evidences": [],
+    "_links": {
+      "closed_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.8&scope=all&state=closed",
+      "closed_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.8&scope=all&state=closed",
+      "merged_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.8&scope=all&state=merged",
+      "opened_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.8&scope=all&state=opened",
+      "opened_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.8&scope=all&state=opened",
+      "self": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.9.8"
+    }
+  },
+  {
+    "name": "libxml2 2.9.9",
+    "tag_name": "v2.9.9",
+    "description": "Release migrated from ftp.xmlsoft.org",
+    "created_at": "2022-02-13T16:30:39.580Z",
+    "released_at": "2019-01-03T18:15:41.000Z",
+    "upcoming_release": false,
+    "author": {
+      "id": 51,
+      "username": "ghost",
+      "name": "Ghost User",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/79783106d88279c6c8f94f1f4dec22bdb9f90a8d14c9d6c6628a11430e236cbf?s=80&d=identicon",
+      "web_url": "https://gitlab.gnome.org/ghost"
+    },
+    "commit": {
+      "id": "f8a8c1f59db355b46962577e7b74f1a1e8149dc6",
+      "short_id": "f8a8c1f5",
+      "created_at": "2019-01-03T19:14:17.000+01:00",
+      "parent_ids": [
+        "7c4949afab383f07fc7ba467b6c24415ff8096e5"
+      ],
+      "title": "Release of libxml2-2.9.9",
+      "message": "Release of libxml2-2.9.9\n\n* configure.ac doc/news.html doc/xml.html doc/libxml2.xsa: making changes for\n    the release\n\nSigned-off-by: Daniel Veillard <veillard@redhat.com>\n",
+      "author_name": "Daniel Veillard",
+      "author_email": "veillard@redhat.com",
+      "authored_date": "2019-01-03T19:14:17.000+01:00",
+      "committer_name": "Daniel Veillard",
+      "committer_email": "veillard@redhat.com",
+      "committed_date": "2019-01-03T19:14:17.000+01:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/f8a8c1f59db355b46962577e7b74f1a1e8149dc6"
+    },
+    "commit_path": "/GNOME/libxml2/-/commit/f8a8c1f59db355b46962577e7b74f1a1e8149dc6",
+    "tag_path": "/GNOME/libxml2/-/tags/v2.9.9",
+    "assets": {
+      "count": 5,
+      "sources": [
+        {
+          "format": "zip",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.9/libxml2-v2.9.9.zip"
+        },
+        {
+          "format": "tar.gz",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.9/libxml2-v2.9.9.tar.gz"
+        },
+        {
+          "format": "tar.bz2",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.9/libxml2-v2.9.9.tar.bz2"
+        },
+        {
+          "format": "tar",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.9/libxml2-v2.9.9.tar"
+        }
+      ],
+      "links": [
+        {
+          "id": 357,
+          "name": "Official distribution tarball (tar.xz)",
+          "url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.9.tar.xz",
+          "direct_asset_url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.9.tar.xz",
+          "link_type": "package"
+        }
+      ]
+    },
+    "evidences": [],
+    "_links": {
+      "closed_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.9&scope=all&state=closed",
+      "closed_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.9&scope=all&state=closed",
+      "merged_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.9&scope=all&state=merged",
+      "opened_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.9&scope=all&state=opened",
+      "opened_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.9&scope=all&state=opened",
+      "self": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.9.9"
+    }
+  },
+  {
+    "name": "libxml2 2.9.10",
+    "tag_name": "v2.9.10",
+    "description": "Release migrated from ftp.xmlsoft.org",
+    "created_at": "2022-02-13T16:28:11.844Z",
+    "released_at": "2019-10-30T19:15:45.000Z",
+    "upcoming_release": false,
+    "author": {
+      "id": 51,
+      "username": "ghost",
+      "name": "Ghost User",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/79783106d88279c6c8f94f1f4dec22bdb9f90a8d14c9d6c6628a11430e236cbf?s=80&d=identicon",
+      "web_url": "https://gitlab.gnome.org/ghost"
+    },
+    "commit": {
+      "id": "41a34e1f4ffae2ce401600dbb5fe43f8fe402641",
+      "short_id": "41a34e1f",
+      "created_at": "2019-10-30T20:14:56.000+01:00",
+      "parent_ids": [
+        "a5bb6aaa25c9bf9b741226835d67022471e8f2e7"
+      ],
+      "title": "Release of libxml2-2.9.10",
+      "message": "Release of libxml2-2.9.10\n\n* configure.ac doc/xml.html: updated for the release\n* doc/*: regenerated docs, APIs, etc ...\n",
+      "author_name": "Daniel Veillard",
+      "author_email": "veillard@redhat.com",
+      "authored_date": "2019-10-30T20:14:56.000+01:00",
+      "committer_name": "Daniel Veillard",
+      "committer_email": "veillard@redhat.com",
+      "committed_date": "2019-10-30T20:14:56.000+01:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/41a34e1f4ffae2ce401600dbb5fe43f8fe402641"
+    },
+    "commit_path": "/GNOME/libxml2/-/commit/41a34e1f4ffae2ce401600dbb5fe43f8fe402641",
+    "tag_path": "/GNOME/libxml2/-/tags/v2.9.10",
+    "assets": {
+      "count": 5,
+      "sources": [
+        {
+          "format": "zip",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.10/libxml2-v2.9.10.zip"
+        },
+        {
+          "format": "tar.gz",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.10/libxml2-v2.9.10.tar.gz"
+        },
+        {
+          "format": "tar.bz2",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.10/libxml2-v2.9.10.tar.bz2"
+        },
+        {
+          "format": "tar",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.10/libxml2-v2.9.10.tar"
+        }
+      ],
+      "links": [
+        {
+          "id": 356,
+          "name": "Official distribution tarball (tar.xz)",
+          "url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.10.tar.xz",
+          "direct_asset_url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.10.tar.xz",
+          "link_type": "package"
+        }
+      ]
+    },
+    "evidences": [],
+    "_links": {
+      "closed_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.10&scope=all&state=closed",
+      "closed_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.10&scope=all&state=closed",
+      "merged_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.10&scope=all&state=merged",
+      "opened_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.10&scope=all&state=opened",
+      "opened_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.10&scope=all&state=opened",
+      "self": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.9.10"
+    }
+  },
+  {
+    "name": "libxml2 2.9.11",
+    "tag_name": "v2.9.11",
+    "description": "Release migrated from ftp.xmlsoft.org",
+    "created_at": "2022-02-13T16:28:24.149Z",
+    "released_at": "2021-05-13T13:34:51.000Z",
+    "upcoming_release": false,
+    "author": {
+      "id": 51,
+      "username": "ghost",
+      "name": "Ghost User",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/79783106d88279c6c8f94f1f4dec22bdb9f90a8d14c9d6c6628a11430e236cbf?s=80&d=identicon",
+      "web_url": "https://gitlab.gnome.org/ghost"
+    },
+    "commit": {
+      "id": "e1bcffea180d6cc0651757bb64284a763e0e2239",
+      "short_id": "e1bcffea",
+      "created_at": "2021-05-13T15:35:21.000+02:00",
+      "parent_ids": [
+        "8598060bacada41a0eb09d95c97744ff4e428f8e"
+      ],
+      "title": "Release of libxml2-2.9.11",
+      "message": "Release of libxml2-2.9.11\n\nPrompted by CVE-2021-3541, but this includes an awful lot of serious bug\nfixes by Nick and others.\n- configure.ac: bumped to new release\n- doc/* updated and regenerated\n",
+      "author_name": "Daniel Veillard",
+      "author_email": "veillard@redhat.com",
+      "authored_date": "2021-05-13T15:35:21.000+02:00",
+      "committer_name": "Daniel Veillard",
+      "committer_email": "veillard@redhat.com",
+      "committed_date": "2021-05-13T15:35:21.000+02:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/e1bcffea180d6cc0651757bb64284a763e0e2239"
+    },
+    "commit_path": "/GNOME/libxml2/-/commit/e1bcffea180d6cc0651757bb64284a763e0e2239",
+    "tag_path": "/GNOME/libxml2/-/tags/v2.9.11",
+    "assets": {
+      "count": 5,
+      "sources": [
+        {
+          "format": "zip",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.11/libxml2-v2.9.11.zip"
+        },
+        {
+          "format": "tar.gz",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.11/libxml2-v2.9.11.tar.gz"
+        },
+        {
+          "format": "tar.bz2",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.11/libxml2-v2.9.11.tar.bz2"
+        },
+        {
+          "format": "tar",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.11/libxml2-v2.9.11.tar"
+        }
+      ],
+      "links": [
+        {
+          "id": 355,
+          "name": "Official distribution tarball (tar.xz)",
+          "url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.11.tar.xz",
+          "direct_asset_url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.11.tar.xz",
+          "link_type": "package"
+        }
+      ]
+    },
+    "evidences": [],
+    "_links": {
+      "closed_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.11&scope=all&state=closed",
+      "closed_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.11&scope=all&state=closed",
+      "merged_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.11&scope=all&state=merged",
+      "opened_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.11&scope=all&state=opened",
+      "opened_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.11&scope=all&state=opened",
+      "self": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.9.11"
+    }
+  },
+  {
+    "name": "libxml2 2.9.12",
+    "tag_name": "v2.9.12",
+    "description": "Release migrated from ftp.xmlsoft.org",
+    "created_at": "2022-02-13T16:28:35.186Z",
+    "released_at": "2021-05-13T18:59:38.000Z",
+    "upcoming_release": false,
+    "author": {
+      "id": 51,
+      "username": "ghost",
+      "name": "Ghost User",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/79783106d88279c6c8f94f1f4dec22bdb9f90a8d14c9d6c6628a11430e236cbf?s=80&d=identicon",
+      "web_url": "https://gitlab.gnome.org/ghost"
+    },
+    "commit": {
+      "id": "b48e77cf4f6fa0792c5f4b639707a2b0675e461b",
+      "short_id": "b48e77cf",
+      "created_at": "2021-05-13T20:56:16.000+02:00",
+      "parent_ids": [
+        "e1bcffea180d6cc0651757bb64284a763e0e2239"
+      ],
+      "title": "Release of libxml2-2.9.12",
+      "message": "Release of libxml2-2.9.12\n\nBrown paper bag release, some recently added sources were missing from\nthe 2.9.11 tarball:\n- configure.ac: bump version\n- fuzz/Makefile.am: add fuzz.h and seed/regexp to EXTRA_DIST\n",
+      "author_name": "Daniel Veillard",
+      "author_email": "veillard@redhat.com",
+      "authored_date": "2021-05-13T20:56:16.000+02:00",
+      "committer_name": "Daniel Veillard",
+      "committer_email": "veillard@redhat.com",
+      "committed_date": "2021-05-13T20:56:16.000+02:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/b48e77cf4f6fa0792c5f4b639707a2b0675e461b"
+    },
+    "commit_path": "/GNOME/libxml2/-/commit/b48e77cf4f6fa0792c5f4b639707a2b0675e461b",
+    "tag_path": "/GNOME/libxml2/-/tags/v2.9.12",
+    "assets": {
+      "count": 5,
+      "sources": [
+        {
+          "format": "zip",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.12/libxml2-v2.9.12.zip"
+        },
+        {
+          "format": "tar.gz",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.12/libxml2-v2.9.12.tar.gz"
+        },
+        {
+          "format": "tar.bz2",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.12/libxml2-v2.9.12.tar.bz2"
+        },
+        {
+          "format": "tar",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.12/libxml2-v2.9.12.tar"
+        }
+      ],
+      "links": [
+        {
+          "id": 354,
+          "name": "Official distribution tarball (tar.xz)",
+          "url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.12.tar.xz",
+          "direct_asset_url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.12.tar.xz",
+          "link_type": "package"
+        }
+      ]
+    },
+    "evidences": [],
+    "_links": {
+      "closed_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.12&scope=all&state=closed",
+      "closed_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.12&scope=all&state=closed",
+      "merged_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.12&scope=all&state=merged",
+      "opened_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.12&scope=all&state=opened",
+      "opened_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.12&scope=all&state=opened",
+      "self": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.9.12"
+    }
+  },
+  {
+    "name": "libxml2 2.9.13",
+    "tag_name": "v2.9.13",
+    "description": "### Security\n\n- **[CVE-2022-23308]** Use-after-free of ID and IDREF attributes\n  (Thanks to Shinji Sato for the report)\n- Use-after-free in xmlXIncludeCopyRange (David Kilzer)\n- Fix Null-deref-in-xmlSchemaGetComponentTargetNs (huangduirong)\n- Fix memory leak in xmlXPathCompNodeTest\n- Fix null pointer deref in xmlStringGetNodeList\n- Fix several memory leaks found by Coverity (David King)\n\n### Fixed regressions\n\n- Fix regression in RelaxNG pattern matching\n- Properly handle nested documents in xmlFreeNode\n- Fix regression with PEs in external DTD\n- Fix random dropping of characters on dumping ASCII encoded XML (Mohammad Razavi)\n- Revert \"Make schema validation fail with multiple top-level elements\"\n- Fix regression when parsing invalid HTML tags in push mode\n- Fix regression parsing public IDs literals in HTML\n- Fix buffering in xmlOutputBufferWrite\n- Fix whitespace when serializing empty HTML documents\n- Fix XPath recursion limit\n- Fix regression in xmlNodeDumpOutputInternal\n- Work around lxml API abuse\n\n### Bug fixes\n\n- Fix xmlSetTreeDoc with entity references\n- Fix double counting of CRLF in comments\n- Make sure to grow input buffer in xmlParseMisc\n- Don't ignore xmllint options after \"-\"\n- Don't normalize namespace URIs in XPointer xmlns() scheme\n- Fix handling of XSD with empty namespace\n- Also register HTML document nodes\n- Make xmllint return an error if arguments are missing\n- Fix handling of ctxt->base in xmlXPtrEvalXPtrPart\n- Fix xmllint --maxmem\n- Fix htmlReadFd, which was using a mix of xml and html context functions (Finn Barber)\n- Move current position before possible calling of ctxt->sax->characters (Yulin Li)\n- Fix parse failure when 4-byte character in UTF-16 BE is split across a chunk (David Kilzer)\n- Patch to forbid epsilon-reduction of final states (Arne Becker)\n- Avoid segfault at exit when using custom memory functions (Mike Dalessio)\n\n### Tests, code quality, fuzzing\n\n- Remove .travis.yml\n- Make xmlFuzzReadString return a zero size in error case\n- Fix unused function warning in testapi.c\n- Update NewsML DTD in test suite\n- Add more checks for malloc failures in xmllint.c\n- Avoid potential integer overflow in xmlstring.c\n- Run CI tests with UBSan implicit-conversion checks\n- Fix casting of line numbers in SAX2.c\n- Fix integer conversion warnings in hash.c\n- Add explicit casts in runtest.c \n- Fix integer conversion warning in xmlIconvWrapper\n- Add suffix to unsigned constant in xmlmemory.c\n- Add explicit casts in testchar.c\n- Fix integer conversion warnings in xmlstring.c\n- Add explicit cast in xmlURIUnescapeString\n- Remove unused variable in xmlCharEncOutFunc (David King)\n\n### Build system, portability\n\n- Remove xmlwin32version.h\n- Fix fuzzer test with VPATH build\n- Support custom prefix when installing Python module\n- Remove Makefile.win\n- Remove CVS and SVN-related code\n- Port python 3.x module to Windows and improve distutils (Chun-wei Fan)\n- Correctly install the HTML examples into their subdirectory (Mattia Rizzolo)\n- Refactor the settings of $docdir (Mattia Rizzolo)\n- Remove unused configure checks (Ben Boeckel)\n- python/Makefile.am: use *_LIBADD, not *_LDFLAGS for LIBS (Sam James)\n- Fix check for libtool in autogen.sh\n- Use version in configure.ac for CMake (Timothy Lyanguzov)\n- Add CMake alias targets for embedded projects (Markus Rickert)\n\n### Documentation\n\n- Remove SVN keyword anchors\n- Rework README\n- Remove README.cvs-commits\n- Remove old ChangeLog\n- Update hyperlinks\n- Remove README.docs\n- Remove MAINTAINERS \n- Remove xmltutorial.pdf\n- Upload documentation to GitLab pages\n- Document how to escape XML_CATALOG_FILES\n- Fix libxml2.doap\n- Update URL for libxml++ C++ binding (Kjell Ahlstedt)\n- Generate devhelp2 index file (Emmanuele Bassi)\n- Mention XML_CATALOG_FILES is space-separated (Jan Tojnar)\n- Add documentaiton for xmllint exit code 10 (Rainer Canavan)\n- Fix some validation errors in the FAQ (David King)\n- Add instructions on how to use CMake to compile libxml (Markus Rickert)",
+    "created_at": "2022-02-20T12:47:49.125Z",
+    "released_at": "2022-02-20T12:47:49.125Z",
+    "upcoming_release": false,
+    "author": {
+      "id": 6732,
+      "username": "nwellnhof",
+      "name": "Nick Wellnhofer",
+      "state": "active",
+      "locked": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/bd619578e916998bef4460286dbe97b828d8801a7bb53544d8abcb80d50fcfb8?s=80&d=identicon",
+      "web_url": "https://gitlab.gnome.org/nwellnhof"
+    },
+    "commit": {
+      "id": "a075d256fd9ff15590b86d981b75a50ead124fca",
+      "short_id": "a075d256",
+      "created_at": "2022-02-19T19:26:42.000+01:00",
+      "parent_ids": [
+        "04d4124c15442125af6edea3dd53dcbd500f7cba"
+      ],
+      "title": "Release v2.9.13",
+      "message": "Release v2.9.13\n",
+      "author_name": "Nick Wellnhofer",
+      "author_email": "wellnhofer@aevum.de",
+      "authored_date": "2022-02-19T19:05:45.000+01:00",
+      "committer_name": "Nick Wellnhofer",
+      "committer_email": "wellnhofer@aevum.de",
+      "committed_date": "2022-02-19T19:26:42.000+01:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.gnome.org/GNOME/libxml2/-/commit/a075d256fd9ff15590b86d981b75a50ead124fca"
+    },
+    "commit_path": "/GNOME/libxml2/-/commit/a075d256fd9ff15590b86d981b75a50ead124fca",
+    "tag_path": "/GNOME/libxml2/-/tags/v2.9.13",
+    "assets": {
+      "count": 5,
+      "sources": [
+        {
+          "format": "zip",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.13/libxml2-v2.9.13.zip"
+        },
+        {
+          "format": "tar.gz",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.13/libxml2-v2.9.13.tar.gz"
+        },
+        {
+          "format": "tar.bz2",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.13/libxml2-v2.9.13.tar.bz2"
+        },
+        {
+          "format": "tar",
+          "url": "https://gitlab.gnome.org/GNOME/libxml2/-/archive/v2.9.13/libxml2-v2.9.13.tar"
+        }
+      ],
+      "links": [
+        {
+          "id": 388,
+          "name": "Official distribution tarball (tar.xz)",
+          "url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.13.tar.xz",
+          "direct_asset_url": "https://download.gnome.org/sources/libxml2/2.9/libxml2-2.9.13.tar.xz",
+          "link_type": "package"
+        }
+      ]
+    },
+    "evidences": [
+      {
+        "sha": "eef37abb111b8c0b34ace0331a855ce43e777df7c2ad",
+        "filepath": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.9.13/evidences/684.json",
+        "collected_at": "2022-02-20T12:47:49.293Z"
+      }
+    ],
+    "_links": {
+      "closed_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.13&scope=all&state=closed",
+      "closed_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.13&scope=all&state=closed",
+      "merged_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.13&scope=all&state=merged",
+      "opened_issues_url": "https://gitlab.gnome.org/GNOME/libxml2/-/issues?release_tag=v2.9.13&scope=all&state=opened",
+      "opened_merge_requests_url": "https://gitlab.gnome.org/GNOME/libxml2/-/merge_requests?release_tag=v2.9.13&scope=all&state=opened",
+      "self": "https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.9.13"
+    }
+  }
+]

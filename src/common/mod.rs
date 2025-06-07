@@ -19,6 +19,15 @@ pub enum SortOrder {
   Desc,
 }
 
+impl SortOrder {
+  pub fn as_str(self) -> &'static str {
+    match self {
+      Self::Asc => "asc",
+      Self::Desc => "desc",
+    }
+  }
+}
+
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum Visibility {
@@ -134,7 +143,9 @@ impl<'de> serde::Deserialize<'de> for AccessLevel {
 pub struct KeysetPagination<TyOrderBy> {
   /// Number of items to list per page (default: `20`, max: `100`).
   pub per_page: Option<NonZeroU8>,
+  // todo: optional
   pub order_by: TyOrderBy,
+  // todo: optional
   pub sort: SortOrder,
 }
 
