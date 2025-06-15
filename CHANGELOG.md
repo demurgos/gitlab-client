@@ -1,4 +1,4 @@
-# Next
+# 0.15.1 (2025-06-16)
 
 - **[Feature]** Add HTTP client support for `GetProjectReleaseListQuery` and `GetProjectReleaseListPageQuery`
 
